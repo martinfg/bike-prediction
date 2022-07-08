@@ -1,9 +1,7 @@
 from fastapi import FastAPI
 from typing import Union
-from datetime import datetime
 
 import psycopg2
-import uvicorn
 import random
 
 app = FastAPI()
@@ -59,19 +57,24 @@ def bikes_page(timestamp: int, offset: int = 0, limit: Union[int, None] = 5):
             """, (timestamp, ))
 
     remaining = max(0, total[0][0] - offset) 
+    print(len(rows))
 
-    bikes = 
-    [
-        {"time": row[0], 
-        "bikes": row[1]["countries"][0]["cities"][0]["places"]} 
-        for row in rows
-    ]
+    data = []
+    for row in rows:
+        time = row[0]
+        try: # some times rows contain no data so will not get appended to response here
+            bikes = row[1]["countries"][0]["cities"][0]["places"]
+            data.append({"time": time, "bikes": bikes})
+        except IndexError as e:
+            pass
+        except Exception as e:
+            pass
 
     return {
         "prev": f"/bikes/{timestamp}?offset={offset-limit}" if offset != 0 else "",
         "next": f"/bikes/{timestamp}?offset={offset+limit}" if remaining > 0 else "",
         "remaining": remaining,
-        "rows": bikes
+        "rows": data
     } 
         
 
