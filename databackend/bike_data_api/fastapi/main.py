@@ -44,6 +44,17 @@ def bikes():
 
 @app.get("/bikes/{timestamp}")
 def bikes_page(timestamp: int, offset: int = 0, limit: Union[int, None] = 5):
+    total = query(""" SELECT COUNT(*) OVER() FROM bikes
+            WHERE CAST(extract(epoch FROM (time + date)) AS INTEGER) > %s
+            """, (timestamp, ))
+
+    if len(total) == 0: 
+        return {
+            "prev": "",
+            "next": "",
+            "remaining": 0,
+        } 
+
     rows = query(
         """ SELECT (date + time), data 
             FROM bikes
@@ -52,12 +63,7 @@ def bikes_page(timestamp: int, offset: int = 0, limit: Union[int, None] = 5):
             OFFSET %s LIMIT %s; """,
             (timestamp, offset, limit))
     
-    total = query(""" SELECT COUNT(*) OVER() FROM bikes
-            WHERE CAST(extract(epoch FROM (time + date)) AS INTEGER) > %s
-            """, (timestamp, ))
-
     remaining = max(0, total[0][0] - offset) 
-    print(len(rows))
 
     data = []
     for row in rows:
@@ -86,4 +92,3 @@ def _test():
     return {
         "randomTimestamp": random.choice(timestamps)
     }
-
