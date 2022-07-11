@@ -7,13 +7,13 @@ CREATE TABLE IF NOT EXISTS bikes_fake (
   free_bikes  INTEGER     NOT NULL
 );
 
+-- convert table to hypertable for use with timescaleDB
+SELECT create_hypertable('bikes_fake', 'time', if_not_exists => TRUE);
+
 -- generate fake data
 INSERT INTO bikes_fake
 SELECT times, floor(random() * (1000-0+1))::int FROM generate_series
         ( '2022-06-01'::date
         , '2022-07-01'::date
         , '30 minutes'::interval) times;
-
--- convert table to hypertable for use with timescaleDB
-SELECT create_hypertable('bikes_raw', 'time', if_not_exists => TRUE);
 
