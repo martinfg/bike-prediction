@@ -46,7 +46,7 @@ from IPython.display import display, HTML
 display(HTML("<style>.container { width:95% !important; }</style>"))
 
 # %%
-# %matplotlib notebook
+# #%matplotlib notebook
 
 # %%
 import pandas as pd
@@ -95,7 +95,7 @@ len(free_bikes)
 
 # %%
 places_with_booked_bikes = [p for p in places if p['bikes_available_to_rent'] < p['bikes']]
-len(places_with_booked_bikes)
+places_with_booked_bikes
 
 # %%
 assert len(bike_stations) + len(free_bikes) == len(places), "the number of bike stations and free bikes should add up to the number of all places"
@@ -203,7 +203,7 @@ for index, row in free_bike_locations_df.head(100).iterrows():
         ))
     
 fig.update_layout(
-    mapbox_style="open-street-map",
+    mapbox_style="satellite",
     height=800,
     width=1200,
     margin=go.layout.Margin(
