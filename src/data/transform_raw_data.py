@@ -5,6 +5,7 @@ import h3
 import pandas as pd
 from minio import Minio
 from minio.error import InvalidResponseError
+import pyjq
 
 
 def load_parsed_data():
@@ -30,16 +31,22 @@ def load_raw_data():
 
     # Get a full object
     try:
-        data = client.get_object('group8', '/bikes/example.json')
+        data = client.get_object('group8', '/bikes/2022_07_15_09_33_11.json')
         return json.load(io.BytesIO(data.data))
 
     except InvalidResponseError as err:
         print(err)
 
 
-def create_bike_df(data):
-    # TODO run parse_bikes.jq on raw data
-    bikes = data
+def create_bike_df(raw_data):
+
+    script_directory = Path(__file__).resolve().parents[2] / 'src/data'
+
+    with open(script_directory / "parse_bikes.jq") as f:
+        bike_script = f.read()
+
+    bikes = pyjq.first(script = bike_script, value=raw_data)
+
     bike_ids = []
     lats = []
     lons = []
@@ -65,9 +72,14 @@ def create_bike_df(data):
     return bicycle_data
 
 
-def create_stations_df(data):
-    # TODO run parse_stations.jq on raw data
-    stations = data
+def create_stations_df(raw_data):
+
+    script_directory = Path(__file__).resolve().parents[2] / 'src/data'
+    
+    with open(script_directory / "parse_stations.jq") as f:
+        station_script = f.read()
+
+    stations = pyjq.first(script=station_script, value=raw_data)
 
     names = []
     numbers = []
@@ -117,11 +129,10 @@ if __name__ == "__main__":
     # Here you can specify the H3 resolutions for which you want to have the values in your final dataframe
     h3_resolutions = range(7, 11)
 
-    # raw = load_raw_data()
-    parsed_bikes_data, parsed_stations_data = load_parsed_data()
+    raw_data = load_raw_data()
 
-    bike_df = create_bike_df(parsed_bikes_data)
-    stations_df = create_stations_df(parsed_stations_data)
+    bike_df = create_bike_df(raw_data)
+    stations_df = create_stations_df(raw_data)
 
     for res in h3_resolutions:
         col_name = 'h3_grid_res_' + str(res)
