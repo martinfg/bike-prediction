@@ -1,0 +1,641 @@
+[
+  {
+    "name": "Galopprennbahn (Vorplatz/Zufahrtsstraße)",
+    "number": 4034,
+    "latitude": 51.326737,
+    "longitude": 12.358117,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Hauptbahnhof/LVB-Mobilitätszentrale",
+    "number": 4024,
+    "latitude": 51.343658,
+    "longitude": 12.378786,
+    "bikes": 14,
+    "available_bikes": 14,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Hauptbahnhof/Osthalle",
+    "number": 4042,
+    "latitude": 51.343813,
+    "longitude": 12.381495,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Hauptbahnhof/Westhalle (LVB Mobilitätsstation 4)",
+    "number": 4046,
+    "latitude": 51.344577,
+    "longitude": 12.379628,
+    "bikes": 8,
+    "available_bikes": 8,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Hauptbahnhof/Westseite",
+    "number": 4055,
+    "latitude": 51.345639,
+    "longitude": 12.379167,
+    "bikes": 3,
+    "available_bikes": 3,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Hauptbahnhof/Ostseite",
+    "number": 4067,
+    "latitude": 51.34397,
+    "longitude": 12.383174,
+    "bikes": 9,
+    "available_bikes": 9,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Virchowstr. (LVB Mobilitätsstation 23)",
+    "number": 4060,
+    "latitude": 51.37549,
+    "longitude": 12.378652,
+    "bikes": 8,
+    "available_bikes": 8,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Schönauer Str./Lützner Str. (LVB Mobilitätsstation 25)",
+    "number": 4066,
+    "latitude": 51.322889,
+    "longitude": 12.28723,
+    "bikes": 7,
+    "available_bikes": 7,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Eutritzscher Markt (LVB Mobilitätsstation 19)",
+    "number": 4083,
+    "latitude": 51.368291,
+    "longitude": 12.386329,
+    "bikes": 6,
+    "available_bikes": 6,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Musikpavillon",
+    "number": 4027,
+    "latitude": 51.331342,
+    "longitude": 12.358439,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "S-Bhf. MDR",
+    "number": 4082,
+    "latitude": 51.320595,
+    "longitude": 12.385991,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "UFZ Leipzig/Permoserstr.",
+    "number": 4088,
+    "latitude": 51.351415,
+    "longitude": 12.432007,
+    "bikes": 14,
+    "available_bikes": 14,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Stannebeinplatz (LVB Mobilitätsstation 18)",
+    "number": 4101,
+    "latitude": 51.351505,
+    "longitude": 12.407074,
+    "bikes": 11,
+    "available_bikes": 11,
+    "booked_bikes": 0
+  },
+  {
+    "name": "S-Bhf. Leutzsch",
+    "number": 4099,
+    "latitude": 51.353337,
+    "longitude": 12.303199,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Siemens AG",
+    "number": 4106,
+    "latitude": 51.35002,
+    "longitude": 12.291401,
+    "bikes": 5,
+    "available_bikes": 5,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Klinikum St. Georg Haus 17",
+    "number": 4003,
+    "latitude": 51.383607,
+    "longitude": 12.379763,
+    "bikes": 5,
+    "available_bikes": 5,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Klinikum St. Georg Haus 11",
+    "number": 4002,
+    "latitude": 51.384759,
+    "longitude": 12.376131,
+    "bikes": 1,
+    "available_bikes": 1,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Klinikum St. Georg Haus 20",
+    "number": 4004,
+    "latitude": 51.382837,
+    "longitude": 12.377086,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Klinikum St. Georg Haus 14",
+    "number": 4001,
+    "latitude": 51.385067,
+    "longitude": 12.378051,
+    "bikes": 6,
+    "available_bikes": 6,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Moritzhof (LVB Mobilitätsstation 51)",
+    "number": 4010,
+    "latitude": 51.301139,
+    "longitude": 12.396,
+    "bikes": 1,
+    "available_bikes": 1,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Waldplatz",
+    "number": 4011,
+    "latitude": 51.342214,
+    "longitude": 12.359287,
+    "bikes": 1,
+    "available_bikes": 1,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Wilhelm-Leuschner-PLatz",
+    "number": 4012,
+    "latitude": 51.336155,
+    "longitude": 12.37502,
+    "bikes": 6,
+    "available_bikes": 6,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Christianstraße",
+    "number": 4013,
+    "latitude": 51.347388,
+    "longitude": 12.353402,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Richard-Wagner-Platz",
+    "number": 4014,
+    "latitude": 51.34326,
+    "longitude": 12.372462,
+    "bikes": 6,
+    "available_bikes": 6,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Augustusplatz",
+    "number": 4015,
+    "latitude": 51.339064,
+    "longitude": 12.380031,
+    "bikes": 8,
+    "available_bikes": 8,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Friedrich-List-PLatz",
+    "number": 4016,
+    "latitude": 51.345217,
+    "longitude": 12.392192,
+    "bikes": 3,
+    "available_bikes": 3,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Oststraße",
+    "number": 4017,
+    "latitude": 51.331718,
+    "longitude": 12.405657,
+    "bikes": 2,
+    "available_bikes": 2,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Völkerschlachtdenkmal",
+    "number": 4018,
+    "latitude": 51.31451,
+    "longitude": 12.410012,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Karl-Liebknecht-Straße",
+    "number": 4019,
+    "latitude": 51.32203,
+    "longitude": 12.373781,
+    "bikes": 1,
+    "available_bikes": 1,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Peterskirche",
+    "number": 4020,
+    "latitude": 51.330471,
+    "longitude": 12.374876,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Straße des 18. Okotber",
+    "number": 4021,
+    "latitude": 51.326107,
+    "longitude": 12.388651,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Connewitzer Kreuz",
+    "number": 4022,
+    "latitude": 51.310369,
+    "longitude": 12.372912,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Coppiplatz",
+    "number": 4023,
+    "latitude": 51.367775,
+    "longitude": 12.366829,
+    "bikes": 1,
+    "available_bikes": 1,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Wahren Wendeschleife",
+    "number": 4025,
+    "latitude": 51.37465,
+    "longitude": 12.3232,
+    "bikes": 3,
+    "available_bikes": 3,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Hermann-Liebmann-Straße",
+    "number": 4026,
+    "latitude": 51.345548,
+    "longitude": 12.406418,
+    "bikes": 1,
+    "available_bikes": 1,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Torgauer Platz",
+    "number": 4028,
+    "latitude": 51.345461,
+    "longitude": 12.414701,
+    "bikes": 1,
+    "available_bikes": 1,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Papiermühlstraße",
+    "number": 4029,
+    "latitude": 51.324316,
+    "longitude": 12.412888,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Zoo",
+    "number": 4030,
+    "latitude": 51.348581,
+    "longitude": 12.371871,
+    "bikes": 1,
+    "available_bikes": 1,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Nordplatz",
+    "number": 4031,
+    "latitude": 51.352531,
+    "longitude": 12.373492,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Georg-Schumann-Straße",
+    "number": 4032,
+    "latitude": 51.363116,
+    "longitude": 12.362178,
+    "bikes": 6,
+    "available_bikes": 6,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Löbauer Straße ",
+    "number": 4033,
+    "latitude": 51.356407,
+    "longitude": 12.415967,
+    "bikes": 1,
+    "available_bikes": 1,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Geißlerstraße",
+    "number": 4035,
+    "latitude": 51.344905,
+    "longitude": 12.419175,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Rödelstraße",
+    "number": 4036,
+    "latitude": 51.318674,
+    "longitude": 12.34101,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Könneritzstraße",
+    "number": 4037,
+    "latitude": 51.324065,
+    "longitude": 12.344003,
+    "bikes": 2,
+    "available_bikes": 2,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Wielandstraße",
+    "number": 4038,
+    "latitude": 51.341189,
+    "longitude": 12.324257,
+    "bikes": 1,
+    "available_bikes": 1,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Angerbürcke ",
+    "number": 4039,
+    "latitude": 51.337814,
+    "longitude": 12.340361,
+    "bikes": 10,
+    "available_bikes": 10,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Herzliyaplatz",
+    "number": 4041,
+    "latitude": 51.332164,
+    "longitude": 12.362441,
+    "bikes": 3,
+    "available_bikes": 3,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Zschochersche Straße",
+    "number": 4043,
+    "latitude": 51.329475,
+    "longitude": 12.336901,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Karl-heine-Straße",
+    "number": 4044,
+    "latitude": 51.33147,
+    "longitude": 12.333789,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Felsenkeller",
+    "number": 4045,
+    "latitude": 51.332465,
+    "longitude": 12.338639,
+    "bikes": 1,
+    "available_bikes": 1,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Lindenauer Markt",
+    "number": 4047,
+    "latitude": 51.337362,
+    "longitude": 12.334068,
+    "bikes": 2,
+    "available_bikes": 2,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Gottschedstraße",
+    "number": 4048,
+    "latitude": 51.340512,
+    "longitude": 12.368841,
+    "bikes": 2,
+    "available_bikes": 2,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Westplatz",
+    "number": 4049,
+    "latitude": 51.338729,
+    "longitude": 12.362505,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Markt",
+    "number": 4050,
+    "latitude": 51.340884,
+    "longitude": 12.375187,
+    "bikes": 3,
+    "available_bikes": 3,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Altenburger Straße",
+    "number": 4052,
+    "latitude": 51.320511,
+    "longitude": 12.383013,
+    "bikes": 2,
+    "available_bikes": 2,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Bahnhof Gohlis",
+    "number": 4056,
+    "latitude": 51.362982,
+    "longitude": 12.373561,
+    "bikes": 4,
+    "available_bikes": 4,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Kohlgartenstraße ",
+    "number": 4057,
+    "latitude": 51.33892,
+    "longitude": 12.402824,
+    "bikes": 1,
+    "available_bikes": 1,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Täubchenweg",
+    "number": 4058,
+    "latitude": 51.335619,
+    "longitude": 12.407663,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Böhlitz-Ehrenberg",
+    "number": 4059,
+    "latitude": 51.359442,
+    "longitude": 12.292821,
+    "bikes": 4,
+    "available_bikes": 4,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Spinnereistraße",
+    "number": 4061,
+    "latitude": 51.32793,
+    "longitude": 12.319933,
+    "bikes": 6,
+    "available_bikes": 6,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Saarländerstraße",
+    "number": 4062,
+    "latitude": 51.325815,
+    "longitude": 12.314928,
+    "bikes": 6,
+    "available_bikes": 6,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Bornaische Straße",
+    "number": 4063,
+    "latitude": 51.295085,
+    "longitude": 12.386184,
+    "bikes": 6,
+    "available_bikes": 6,
+    "booked_bikes": 0
+  },
+  {
+    "name": "An der Märchenwiese",
+    "number": 4064,
+    "latitude": 51.30605,
+    "longitude": 12.396687,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Ostplatz",
+    "number": 4065,
+    "latitude": 51.332308,
+    "longitude": 12.395432,
+    "bikes": 4,
+    "available_bikes": 4,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Goldschmidtstraße",
+    "number": 4068,
+    "latitude": 51.335029,
+    "longitude": 12.388759,
+    "bikes": 4,
+    "available_bikes": 4,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Einertstraße",
+    "number": 4069,
+    "latitude": 51.346001,
+    "longitude": 12.398635,
+    "bikes": 1,
+    "available_bikes": 1,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Schulze-Delitzsch-Straße",
+    "number": 4070,
+    "latitude": 51.348168,
+    "longitude": 12.405973,
+    "bikes": 2,
+    "available_bikes": 2,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Pistorisstraße",
+    "number": 4071,
+    "latitude": 51.31401,
+    "longitude": 12.342668,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Holbeinstraße",
+    "number": 4072,
+    "latitude": 51.327799,
+    "longitude": 12.345666,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  },
+  {
+    "name": "Rathaus Leutzsch",
+    "number": 4073,
+    "latitude": 51.347374,
+    "longitude": 12.314665,
+    "bikes": 2,
+    "available_bikes": 2,
+    "booked_bikes": 0
+  },
+  {
+    "name": "MM2022",
+    "number": 4085,
+    "latitude": 51.325543,
+    "longitude": 12.316114,
+    "bikes": 0,
+    "available_bikes": 0,
+    "booked_bikes": 0
+  }
+]
