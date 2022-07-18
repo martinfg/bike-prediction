@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: api2bucket
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: c
+            image: group8se4ai/nextbike-prediction:api2bucket
+            imagePullPolicy: IfNotPresent
+            env:
+            - name: MINIO_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: minio-credentials
+                  key: token
+            - name: MINIO_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: minio-credentials
+                  key: password
+          imagePullSecrets:
+          - name: regcred
+          restartPolicy: Never
