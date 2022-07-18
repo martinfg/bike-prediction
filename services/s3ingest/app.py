@@ -48,7 +48,7 @@ def main():
 
     # create filename from current timestamp
     now = datetime.now()
-    filename = now.strftime('%Y_%m_%d_%H_%M_%S') + '.json'
+    filename = now.strftime('%Y_%m_%d') + '/' + now.strftime('%Y_%m_%d_%H_%M_%S') + '.json'
 
     # upload test data
     logging.info(f"writing data as {filename} to bucket")
