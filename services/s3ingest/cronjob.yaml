@@ -4,6 +4,8 @@ metadata:
   name: api2bucket
 spec:
   schedule: "*/5 * * * *"
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 3
   jobTemplate:
     spec:
       template:
@@ -11,7 +13,7 @@ spec:
           containers:
           - name: c
             image: group8se4ai/nextbike-prediction:api2bucket
-            imagePullPolicy: IfNotPresent
+            imagePullPolicy: Always
             env:
             - name: MINIO_TOKEN
               valueFrom:
