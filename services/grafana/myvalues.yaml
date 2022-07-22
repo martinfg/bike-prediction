@@ -1,0 +1,39 @@
+# disable role-based-access-control
+rbac:
+  create: false
+  pspEnabled: false
+  useExistingRole: grafana-clusterrole
+
+# Use an existing secret for the admin user.
+admin:
+  existingSecret: grafana-credentials
+  userKey: user
+  passwordKey: password
+
+# install additional plugins
+plugins: []
+
+# enable ingress to access dashboards from outside the cluster
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
+  path: /grafana/?(.*)
+  pathType: Prefix
+  hosts:
+    - t8.se4ai.sws.informatik.uni-leipzig.de
+
+grafana.ini:
+  server:
+    root_url: http://localhost:3000/grafana
+
+# sidecar or datasources
+sidecar:
+  datasources:
+    enabled: true
+    label: grafana_datasource
+    searchNamespace: group8
+    resource: secret
+    reloadURL: "http://localhost:3000/api/admin/provisioning/datasources/reload"

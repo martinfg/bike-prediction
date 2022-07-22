@@ -1,0 +1,18 @@
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: TimescaleDB
+        type: postgres
+        url: timescaledb:5432
+        database: db
+        user: postgres
+        secureJsonData:
+          password: ""
+        jsonData:
+          sslmode: "require" 
+          maxOpenConns: 0    
+          maxIdleConns: 2    
+          connMaxLifetime: 14400
+          postgresVersion: 903 
+          timescaledb: true
