@@ -1,0 +1,15 @@
+dependencies:
+- name: timescaledb-single
+  repository: https://charts.timescale.com
+  version: 0.13.1
+- name: grafana
+  repository: https://grafana.github.io/helm-charts
+  version: 6.32.6
+- name: initdb
+  repository: file://charts/initdb
+  version: 0.1.0
+- name: datacollector
+  repository: file://charts/datacollector
+  version: 0.1.0
+digest: sha256:bba36e21340516fb30c90e2329ae0763c69810e1f173a40b780ab8399fbd6030
+generated: "2022-07-22T23:03:30.476123505+02:00"

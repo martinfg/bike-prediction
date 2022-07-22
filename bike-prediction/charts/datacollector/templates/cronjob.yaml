@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Values.cronJob.name }}
+spec:
+  schedule: {{ .Values.cronJob.schedule | quote }}
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: {{ .Values.global.defaultContainerName }}
+            image: {{ .Values.global.containerRegistry.name }}{{ .Values.cronJob.image }}
+            imagePullPolicy: Always
+            env:
+            {{- if .Values.debug }}
+            - name: DEBUG
+            {{- end }}            
+            - name: MINIO_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.minio.credentials.name }}
+                  key: {{ .Values.global.minio.credentials.tokenKey | quote }}
+            - name: MINIO_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.minio.credentials.name }}
+                  key: {{ .Values.global.minio.credentials.passwordKey | quote }}
+          restartPolicy: {{ .Values.cronJob.restartPolicy }}
+          imagePullSecrets:
+            - name: {{ .Values.global.containerRegistry.credentials.name }}

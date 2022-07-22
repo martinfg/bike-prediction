@@ -1,0 +1,7 @@
+cronJob:
+  name: datacollector
+  schedule: "*/5 * * * *"
+  image: nextbike-prediction:api2bucket
+  restartPolicy: Never
+
+
