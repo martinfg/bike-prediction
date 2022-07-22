@@ -1,4 +1,0 @@
-requests
-click
-psycopg2-binary
-tqdm
