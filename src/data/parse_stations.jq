@@ -1,8 +1,8 @@
 [
 .countries[].cities[].places[] | select(.spot == true) |
 {
+    station_id: .number,
     name: .name,
-    number: .number,
     latitude: .lat,
     longitude: .lng,
     bikes: .bikes,
