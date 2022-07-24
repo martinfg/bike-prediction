@@ -1,4 +1,6 @@
+pyjq
 h3
 minio
 pandas
-pyjq
+pathlib
+psycopg2
