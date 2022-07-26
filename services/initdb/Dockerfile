@@ -9,7 +9,7 @@ RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 
 # copy schemata
-COPY ./res/* ./res/
+COPY ./res/*.sql ./res/
 
 # copy app
 COPY ./main.py ./main.py

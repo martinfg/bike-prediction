@@ -1,6 +1,8 @@
+from doctest import debug
 import os
 import sys
 import psycopg2
+from psycopg2 import sql
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 import logging
 
@@ -18,36 +20,57 @@ def main():
         level=logging.INFO,
         datefmt='%Y-%m-%d %H:%M:%S')
 
-    # set up database connection
+    # set up database connection as superuser
     try:
         conn = psycopg2.connect(
-            user=os.environ["DB_USER"],
-            password=os.environ["DB_PASSWORD"],
+            user=os.environ["DB_SUPERUSER"],
+            password=os.environ["DB_SUPERUSER_PASSWORD"],
             host=os.environ["DB_HOST"],
             port=os.environ["DB_PORT"]
         )
+        log("Connection as SUPERUSER established.")
     except Exception as e:
         log(
             "Connection to DB could not be established. Exiting.", e,
             [lambda: sys.exit(0)]
         )
 
+    database=os.environ["DB_NAME"]
+    user=os.environ["DB_USER"]
+    pw=os.environ["DB_PASSWORD"]
 
-    # create database
+    # create database and add user
     conn.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
     try:
         with conn.cursor() as cur: 
-            cur.execute("SELECT 1 FROM pg_catalog.pg_database WHERE datname = %s", (os.environ["DB_NAME"], ))
-            exists = cur.fetchone()
-            if not exists:
-                cur.execute('CREATE DATABASE ' + os.environ["DB_NAME"])
-                log("Successfully created database.")
-            else:
-                log("database already exists.")
+
+            # create database
+            log("Creating database")
+            query = sql.SQL("CREATE DATABASE {database}").format(
+                database=sql.Identifier(database)
+            )
+            cur.execute(query)
+
+            # add user
+            log("Adding user.")
+            query = sql.SQL("CREATE USER {username} WITH PASSWORD {password}").format(
+                username=sql.Identifier(user),
+                password=sql.Placeholder()
+            )
+            cur.execute(query, (pw, ))
+            
+            # grant access to database
+            log("Granting permissions.")
+            query = sql.SQL("GRANT ALL PRIVILEGES ON DATABASE {database} TO {username}").format(
+                database=sql.Identifier(database),
+                username=sql.Identifier(user)
+            )
+            cur.execute(query)
+        
         conn.close()
     except Exception as e:
         log(
-            "Could not create database. Exiting.", e,
+            "Error in setting up database and user. Exiting.", e,
             [conn.close, lambda: sys.exit(0)]
         )
 
@@ -55,9 +78,9 @@ def main():
     # connect to newly created database
     try:
         conn = psycopg2.connect(
-            dbname=os.environ["DB_NAME"],
-            user=os.environ["DB_USER"],
-            password=os.environ["DB_PASSWORD"],
+            dbname=database,
+            user=user,
+            password=pw,
             host=os.environ["DB_HOST"],
             port=os.environ["DB_PORT"]
         )
@@ -66,7 +89,6 @@ def main():
             "Connection to DB could not be established. Exiting.", e,
             [lambda: sys.exit(0)]
         )
-
 
     # populate database by executing predefined database schemata
     res_dir = "./res"
