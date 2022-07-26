@@ -1,0 +1,102 @@
+global:
+
+  defaultContainerName: c
+
+  timescaledb:
+    host: &timescaleClusterName timescaledb
+    port: 5432
+    credentials:
+      name: database-credentials
+      databaseKey: database
+      userKey: user
+      passwordKey: password
+
+  minio:
+    credentials:
+      name: minio-credentials
+      tokenKey: token
+      passwordKey: password
+
+  containerRegistry:
+    name: group8se4ai/
+    credentials:
+      name: registry-credentials
+
+  grafana:
+    credentials:
+      user: admin
+      password: admin
+
+
+# === Dependecies ===
+
+initdb:
+  enabled: true
+  # create database and user with password
+  # values can be overwritten with --set or custom my-values.yaml
+  credentials:
+    user: group8
+    database: db
+    password: 
+
+minio:
+  token: mzkZ98BKjvQo4F98
+  key: # matching key for access token
+
+containerRegistry:
+  dockerconfig: # base64 encoded output of ~/.docker/config.json
+
+datacollector: 
+  enabled: true
+  # when in debug mode, connection to bucket store is established but data not actually written
+  debug: true
+
+timescaledb-single:
+  # admin guide: https://github.com/timescale/timescaledb-kubernetes/blob/master/charts/timescaledb-single/admin-guide.md
+  # default values: https://github.com/timescale/timescaledb-kubernetes/blob/master/charts/timescaledb-single/values.yaml
+  enabled: true
+  
+  # this is important to set here because it will be used for naming the service
+  # by which the db is accessible from within the cluster
+  clusterName: *timescaleClusterName
+
+  replicaCount: 3
+  persistentVolumes:
+    data:
+      size: 10Gi
+
+
+grafana:
+  enabled: true
+
+  # disable role-based-access-control
+  rbac:
+    create: false
+    pspEnabled: false
+    useExistingRole: grafana-clusterrole
+
+  # Use an existing secret for the admin user.
+  admin:
+    existingSecret: grafana-credentials
+    userKey: user
+    passwordKey: password
+
+  # install additional plugins
+  plugins: []
+
+  # enable ingress to access dashboards from outside the cluster
+  ingress:
+    # deactivate in minikube otherwise no service we be set up for easy debugging
+    enabled: false
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+      nginx.ingress.kubernetes.io/use-regex: "true"
+    path: /grafana/?(.*)
+    pathType: Prefix
+    hosts:
+      - t8.se4ai.sws.informatik.uni-leipzig.de
+
+  grafana.ini:
+    server:
+      root_url: http://localhost:3000/grafana

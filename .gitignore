@@ -1,4 +1,17 @@
-__pycache__/
+# jupyter stuff
 .ipynb_checkpoints/
+
+# python stuff
+__pycache__/
+venv/
 .idea/
+
+
+# local files
+.fuse*
+*.code-workspace
+scripts/
 data/*
+
+# helm packaged dependencies 
+*.tgz

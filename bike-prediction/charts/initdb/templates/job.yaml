@@ -1,0 +1,50 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.job.name }}
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: check-db-ready
+        image: postgres:9.6.5
+        command: ['sh', '-c', 
+          'until pg_isready -h {{ .Values.global.timescaledb.host }} -p {{ .Values.global.timescaledb.port }}; 
+          do echo waiting for database; sleep 2; done;']
+      containers:
+      - name: initdb
+        image: {{ .Values.global.containerRegistry.name }}{{ .Values.job.image }}
+        imagePullPolicy: Always
+        env:
+        - name: DB_HOST
+          value: {{ .Values.global.timescaledb.host | quote}}
+        - name: DB_PORT
+          value: {{ .Values.global.timescaledb.port | quote}}
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.global.timescaledb.credentials.name }}
+              key: {{ .Values.global.timescaledb.credentials.databaseKey | quote }} 
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.global.timescaledb.credentials.name }}
+              key: {{ .Values.global.timescaledb.credentials.userKey | quote }} 
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.global.timescaledb.credentials.name }}
+              key: {{ .Values.global.timescaledb.credentials.passwordKey | quote }} 
+        - name: DB_SUPERUSER
+          value: postgres
+        - name: DB_SUPERUSER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.global.timescaledb.host}}-credentials
+              key: PATRONI_SUPERUSER_PASSWORD 
+
+      restartPolicy: {{ .Values.job.restartPolicy }}
+      imagePullSecrets:
+        - name: {{ .Values.global.containerRegistry.credentials.name }}
+
+  backoffLimit: 4
