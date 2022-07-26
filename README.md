@@ -4,15 +4,24 @@
 
 ### Deployment
 
+**Die Applikation als ganze liegt als Helm Chart (`./bike-prediction`) vor**
+
+Das Helm-Chart enthält einige externe Dependencies (grafana, timescaledb, ...), somit muss vor dem Installieren die Dependency Liste geupdated werden.
+
+```
+helm dep update
+```
+
 In `./services` sind die einzelnen Komponenten gespeichert, meist Python Skripte mit Dockerfiles. Diese müssen per `docker build` gebaut und dann per `docker push` in die private Docker Registry `group8se4ai` gepushed werden. Die Credentials liegen in den GitLab CI/CD-Settings.
 
-**Die Applikation als ganze liegt als Helm chart (`./bike-prediction`) vor. Um sie zu deployen muss folgendes ausgführt werden:**
+**Installieren des Helm Charts und Deployment auf dem Cluster / Minikube via:**
+
 ```
 helm install \
 --set minio.password=$MINIO_PASSWORD \
 --set containerRegistry.dockerconfig=$DOCKER_CONFIG \
 --set initdb.credentials.password=$DB_PASSWORD \
-bike-prediction . 
+bike-prediction ./bike-prediction 
 ```
 Die env Variablen liegen alle in den CI/CD-Settings.
 
@@ -47,7 +56,7 @@ kubectl delete $(kubectl get pvc,ep,service,secret -l release=bike-prediction -o
 
 - `initdb`
 
-    Initialisiert die Datenbank
+    Erstellt neue Datenbank und Nutzer und legt Tables an.
 
 - `datacollector`
 
