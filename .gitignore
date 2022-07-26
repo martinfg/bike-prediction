@@ -9,6 +9,7 @@ venv/
 .fuse*
 *.code-workspace
 scripts/
+.credentials.yaml
 
 # helm packaged dependencies 
 *.tgz
