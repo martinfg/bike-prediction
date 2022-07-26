@@ -3,13 +3,13 @@ global:
   defaultContainerName: c
 
   timescaledb:
-    host: timescaledb
+    host: &timescaleClusterName timescaledb
     port: 5432
     credentials:
       name: database-credentials
-      databaseKey: DB_NAME
-      userKey: DB_USER
-      passwordKey: DB_PASSWORD
+      databaseKey: database
+      userKey: user
+      passwordKey: password
 
   minio:
     credentials:
@@ -32,6 +32,19 @@ global:
 
 initdb:
   enabled: true
+  # create database and user with password
+  # values can be overwritten with --set or custom my-values.yaml
+  credentials:
+    user: group8
+    database: db
+    password: 
+
+minio:
+  token: mzkZ98BKjvQo4F98
+  key: # matching key for access token
+
+containerRegistry:
+  dockerconfig: # base64 encoded output of ~/.docker/config.json
 
 datacollector: 
   enabled: true
@@ -39,25 +52,23 @@ datacollector:
   debug: true
 
 timescaledb-single:
+  # admin guide: https://github.com/timescale/timescaledb-kubernetes/blob/master/charts/timescaledb-single/admin-guide.md
+  # default values: https://github.com/timescale/timescaledb-kubernetes/blob/master/charts/timescaledb-single/values.yaml
   enabled: true
   
   # this is important to set here because it will be used for naming the service
   # by which the db is accessible from within the cluster
-  clusterName: timescaledb
+  clusterName: *timescaleClusterName
 
   replicaCount: 3
   persistentVolumes:
     data:
       size: 10Gi
 
-  # secret setting patroni password for initializing database;
-  # those passwords are: admin, superuser, replica
-  # for now all of them are set to the same password specified for the database default user (see ./templates/patroni-credentials.yaml)
-  secrets:
-    credentialsSecretName: patroni-credentials
 
 grafana:
   enabled: true
+
   # disable role-based-access-control
   rbac:
     create: false

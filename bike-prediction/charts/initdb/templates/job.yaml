@@ -35,6 +35,14 @@ spec:
             secretKeyRef:
               name: {{ .Values.global.timescaledb.credentials.name }}
               key: {{ .Values.global.timescaledb.credentials.passwordKey | quote }} 
+        - name: DB_SUPERUSER
+          value: postgres
+        - name: DB_SUPERUSER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.global.timescaledb.host}}-credentials
+              key: PATRONI_SUPERUSER_PASSWORD 
+
       restartPolicy: {{ .Values.job.restartPolicy }}
       imagePullSecrets:
         - name: {{ .Values.global.containerRegistry.credentials.name }}

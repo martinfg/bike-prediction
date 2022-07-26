@@ -9,16 +9,12 @@ In `./services` sind die einzelnen Komponenten gespeichert, meist Python Skripte
 **Die Applikation als ganze liegt als Helm chart (`./bike-prediction`) vor. Um sie zu deployen muss folgendes ausgführt werden:**
 ```
 helm install \
---set global.timescaledb.database=$DB_NAME \
---set global.timescaledb.user=$DB_USER \
---set global.timescaledb.password=$DB_PASSWORD \
---set global.containerRegistry.dockerconfig=$DOCKER_CONFIG \
---set global.minio.token=$MINIO_TOKEN \
---set global.minio.password=$MINIO_PASSWORD \
+--set minio.password=$MINIO_PASSWORD \
+--set containerRegistry.dockerconfig=$DOCKER_CONFIG \
+--set initdb.credentials.password=$DB_PASSWORD \
 bike-prediction . 
 ```
-
-Die env Variablen liegen alle in den CI/CD-Settings. `DB_USER` darf nicht verändert werden! Die anderen DB-Parameter sind dynamisch.
+Die env Variablen liegen alle in den CI/CD-Settings.
 
 **Um sie wieder zu deinstallieren muss folgender Befehl ausgeführt werden:**
 
@@ -30,19 +26,24 @@ helm delete bike-prediction
 
 ```
 #fish
-kubectl delete (kubectl get pvc,ep,service -l release=bike-prediction -o name)
+kubectl delete (kubectl get pvc,ep,service,secret -l release=bike-prediction -o name)
 ```
 
 ```
 #bash
-kubectl delete $(kubectl get pvc,ep,service -l release=bike-prediction -o name)
+kubectl delete $(kubectl get pvc,ep,service,secret -l release=bike-prediction -o name)
 ```
 
 #### Folgende Services sind implementiert:
 
 - `timescaledb`
 
-    Zeitreihen basierte Datenbank
+    **Zeitreihen basierte Datenbank**
+    
+    Für Zugriff auf DB innerhalb des Clusters:
+    ```
+    kubectl exec --stdin --tty bike-prediction-timescaledb-0 -- /bin/bash                                                                            (s4ki_2) 
+    ```
 
 - `initdb`
 

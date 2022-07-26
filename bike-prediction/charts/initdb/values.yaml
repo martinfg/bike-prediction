@@ -1,6 +1,6 @@
 job:
   name: initdb
-  image: nextbike-prediction:dbinit
+  image: nextbike-prediction:initdb
   restartPolicy: Never
 
 
