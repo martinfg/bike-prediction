@@ -49,7 +49,10 @@ containerRegistry:
 datacollector: 
   enabled: true
   # when in debug mode, connection to bucket store is established but data not actually written
-  debug: true
+  debug: false
+
+fastapi:
+  enabled: True
 
 timescaledb-single:
   # admin guide: https://github.com/timescale/timescaledb-kubernetes/blob/master/charts/timescaledb-single/admin-guide.md
@@ -60,11 +63,10 @@ timescaledb-single:
   # by which the db is accessible from within the cluster
   clusterName: *timescaleClusterName
 
-  replicaCount: 3
+  replicaCount: 1
   persistentVolumes:
     data:
       size: 10Gi
-
 
 grafana:
   enabled: true
@@ -87,7 +89,8 @@ grafana:
   # enable ingress to access dashboards from outside the cluster
   ingress:
     # deactivate in minikube otherwise no service we be set up for easy debugging
-    enabled: false
+    enabled: true
+
     annotations:
       kubernetes.io/ingress.class: "nginx"
       nginx.ingress.kubernetes.io/rewrite-target: /$1

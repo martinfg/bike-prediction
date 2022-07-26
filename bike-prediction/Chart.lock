@@ -11,5 +11,8 @@ dependencies:
 - name: datacollector
   repository: file://charts/datacollector
   version: 0.1.0
-digest: sha256:bba36e21340516fb30c90e2329ae0763c69810e1f173a40b780ab8399fbd6030
-generated: "2022-07-22T23:03:30.476123505+02:00"
+- name: fastapi
+  repository: file://charts/fastapi
+  version: 0.1.0
+digest: sha256:da53d9d2b7aa347f6f4fa3db4ac43198f0fb0ed6a34c07bce830deadeeec3f03
+generated: "2022-07-26T13:24:35.118879178+02:00"
