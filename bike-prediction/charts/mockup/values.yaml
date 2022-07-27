@@ -1,0 +1,11 @@
+job:
+  name: mockup-init
+  image: nextbike-prediction:mockdata
+  restartPolicy: Never
+
+cronJob:
+  name: mockup-cron
+  schedule: "25,55 * * * *"
+  image: nextbike-prediction:mockdata
+  restartPolicy: Never
+
