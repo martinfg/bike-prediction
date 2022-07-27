@@ -18,11 +18,16 @@ dependencies:
   - name: datacollector
     version: "0.1.0"
     repository: "file://charts/datacollector"
-    condition: initdb.enabled
+    condition: datacollector.enabled
   - name: fastapi
     version: "0.1.0"
     repository: "file://charts/fastapi"
-    condition: fatapi.enabled
+    condition: fastapi.enabled
+  - name: mockup
+    version: "0.1.0"
+    repository: "file://charts/mockup"
+    condition: mockup.enabled
+
 
 
 # A chart can be either an 'application' or a 'library' chart.

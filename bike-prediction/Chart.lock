@@ -14,5 +14,8 @@ dependencies:
 - name: fastapi
   repository: file://charts/fastapi
   version: 0.1.0
-digest: sha256:da53d9d2b7aa347f6f4fa3db4ac43198f0fb0ed6a34c07bce830deadeeec3f03
-generated: "2022-07-26T13:24:35.118879178+02:00"
+- name: mockup
+  repository: file://charts/mockup
+  version: 0.1.0
+digest: sha256:52d9f1544954b005632ee0a401bfa67dc251ae24cd5db515f3bb614bb397aa59
+generated: "2022-07-27T14:20:03.866408181+02:00"
