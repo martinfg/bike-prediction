@@ -1,22 +1,13 @@
-replicaCount: 1
-
 app: fastapi
 
 deployment:
   name: fastapi-deployment
   image: nextbike-prediction:fastapi
   imagePullPolicy: Always
+  replicas: 1
   port: 80
 
 service:
   name: fastapi-service
   type: ClusterIP
   port: 80
-
-ingress:
-  name: fastapi-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-  host: t8.se4ai.sws.informatik.uni-leipzig.de
-  path: /fastapi(/|$)(.*)
-  pathType: Prefix
