@@ -4,6 +4,7 @@ import psycopg2
 import logging
 import mlflow
 
+from mlflow.tracking import MlflowClient
 from lib.model import BaselineModel
 from lib.data import Dataset
 
@@ -85,8 +86,45 @@ def main():
         mlflow.log_param("num_samples", len(dataset))
 
         # train and test model
-        baseline_model = BaselineModel(locations)
+        baseline_model = BaselineModel(locations, prediction_horizon)
         scores = baseline_model.train_and_test(dataset)
+
+        # log model to model registry
+        model_name = "group8-baselinemodel"
+        client = MlflowClient()
+
+        # log model in registry        
+        model_info = mlflow.pyfunc.log_model(
+            artifact_path="model",
+            python_model=baseline_model,
+        )
+        model_uri = model_info.model_uri
+
+        # register model
+        model_details = mlflow.register_model(
+            model_uri=model_uri, 
+            name=model_name,
+        )   
+        model_version = model_details.version # will be assigned automatically 
+
+        # activate model by moving it to production stage
+        client.transition_model_version_stage(
+            name=model_name,
+            version=model_version,
+            stage='Production',
+        )
+
+        # load model from registry
+        model = mlflow.pyfunc.load_model(
+            model_uri=f"models:/{model_name}/Production"
+        )
+
+        # make prediction with loaded model on test sample
+        test_sample = dataset["8763b1076ffffff"].dropna().iloc[:5]
+        predictions = model.predict(test_sample)
+        print(predictions)
+
+        # log scores
         log(scores)
         mae = scores['overall']['mae']
         for idx, _mae in enumerate(mae):            

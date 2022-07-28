@@ -1,5 +1,5 @@
 import pandas as pd
-import numpy as np
+import mlflow
 
 class PriorValueRegressor:
     """
@@ -14,7 +14,7 @@ class PriorValueRegressor:
         pass
 
     def predict(self, X, num_predictions):
-        current_values = X["bikes_t0_feature"]
+        current_values = pd.Series(X["bikes_t0_feature"])
         predictions_df = pd.DataFrame(
             pd.concat([current_values] * num_predictions, axis=1),
         )
@@ -30,10 +30,11 @@ class PriorValueRegressor:
         return {"mae": mae.values}
 
 
-class BaselineModel:
-    def __init__(self, locations):
+class BaselineModel(mlflow.pyfunc.PythonModel):
+    def __init__(self, locations, num_predictions):
         self.locations = locations
         self.models = {}
+        self.num_predictions = num_predictions
 
     def train_and_test(self, dataset):
         """
@@ -67,8 +68,14 @@ class BaselineModel:
         return scores
 
         
-    def predict(self, location, sample):
-        # select model for given location
-        model = self.models[location]
-        # make prediction on sample
-        return model.predict(sample)
+    def predict(self, context, model_input):
+        predictions = []
+        # print(model_input)
+        for _, row in model_input.iterrows():
+            location = row["location"]
+            # select model for given location
+            regressor = self.models[location]
+            predictions_df = regressor.predict(row, self.num_predictions)
+            predictions_values = predictions_df.values[0]
+            predictions.append((row["time"], location, *predictions_values))
+        return pd.DataFrame(predictions)
