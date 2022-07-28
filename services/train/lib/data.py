@@ -63,3 +63,7 @@ class Dataset():
 
     def __getitem__(self, location):
         return self._data.loc[self._data['location'] == location]
+
+
+    def __len__(self):
+        return len(self._data.dropna())

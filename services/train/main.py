@@ -2,6 +2,7 @@ import os
 import sys
 import psycopg2
 import logging
+import mlflow
 
 from lib.model import BaselineModel
 from lib.data import Dataset
@@ -14,7 +15,6 @@ except:
 
 
 def log(msg, error=None, actions=[]):
-
     logging.info(msg)
     if error != None: logging.error(error)
     for action in actions: action()
@@ -73,14 +73,24 @@ def main():
         column_names = [desc[0] for desc in cur.description]
     log("Database connection closed.", actions=[conn.close])
     
-    # build dataset & prepare data
-    dataset = Dataset(column_names, data)
-    dataset.prepare_samples(history, prediction_horizon)
+    # init mlflow
+    log(f"Experiments will be tracked with mlflow to URI: {mlflow.get_tracking_uri()}")
+    experiment = mlflow.set_experiment("group8-baseline")
 
-    # train and test model
-    baseline_model = BaselineModel(locations)
-    scores = baseline_model.train_and_test(dataset)
-    print(scores)
+    with mlflow.start_run(experiment_id=experiment.experiment_id):  
+
+        # build dataset & prepare data
+        dataset = Dataset(column_names, data)
+        dataset.prepare_samples(history, prediction_horizon)
+        mlflow.log_param("num_samples", len(dataset))
+
+        # train and test model
+        baseline_model = BaselineModel(locations)
+        scores = baseline_model.train_and_test(dataset)
+        log(scores)
+        mae = scores['overall']['mae']
+        for idx, _mae in enumerate(mae):            
+            mlflow.log_metric(f"mae_t{idx+1}", _mae)
 
 if __name__ == "__main__":
     main()
