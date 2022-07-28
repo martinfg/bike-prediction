@@ -1,34 +1,6 @@
 apiVersion: v2
-name: bike-prediction
+name: mockup
 description: A Helm chart for Kubernetes
-
-dependencies:
-  - name: timescaledb-single
-    version: "0.13.1"
-    repository: https://charts.timescale.com
-    condition: timescaledb-single.enabled
-  - name: grafana
-    version: "6.32.6"
-    repository: https://grafana.github.io/helm-charts
-    condition: grafana.enabled
-  - name: initdb
-    version: "0.1.0"
-    repository: "file://charts/initdb"
-    condition: initdb.enabled
-  - name: datacollector
-    version: "0.1.0"
-    repository: "file://charts/datacollector"
-    condition: datacollector.enabled
-  - name: fastapi
-    version: "0.1.0"
-    repository: "file://charts/fastapi"
-    condition: fastapi.enabled
-  - name: mockup
-    version: "0.1.0"
-    repository: "file://charts/mockup"
-    condition: mockup.enabled
-
-
 
 # A chart can be either an 'application' or a 'library' chart.
 #

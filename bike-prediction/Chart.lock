@@ -11,5 +11,11 @@ dependencies:
 - name: datacollector
   repository: file://charts/datacollector
   version: 0.1.0
-digest: sha256:bba36e21340516fb30c90e2329ae0763c69810e1f173a40b780ab8399fbd6030
-generated: "2022-07-22T23:03:30.476123505+02:00"
+- name: fastapi
+  repository: file://charts/fastapi
+  version: 0.1.0
+- name: mockup
+  repository: file://charts/mockup
+  version: 0.1.0
+digest: sha256:52d9f1544954b005632ee0a401bfa67dc251ae24cd5db515f3bb614bb397aa59
+generated: "2022-07-27T14:20:03.866408181+02:00"

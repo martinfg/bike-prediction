@@ -43,6 +43,11 @@ kubectl delete (kubectl get pvc,ep,service,secret -l release=bike-prediction -o 
 kubectl delete $(kubectl get pvc,ep,service,secret -l release=bike-prediction -o name)
 ```
 
+**Updaten eines Releases:**
+``` 
+helm upgrade bike-prediction .
+```
+
 #### Folgende Services sind implementiert:
 
 - `timescaledb`

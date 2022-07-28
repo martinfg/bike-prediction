@@ -12,6 +12,8 @@ venv/
 scripts/
 data/*
 config.json
+.credentials.yaml
+.env
 
 # helm packaged dependencies 
 *.tgz

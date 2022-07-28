@@ -1,0 +1,13 @@
+app: fastapi
+
+deployment:
+  name: fastapi-deployment
+  image: nextbike-prediction:fastapi
+  imagePullPolicy: Always
+  replicas: 1
+  port: 80
+
+service:
+  name: fastapi-service
+  type: ClusterIP
+  port: 80
