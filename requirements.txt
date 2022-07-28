@@ -1,6 +1,0 @@
-pyjq
-h3
-minio
-pandas
-pathlib
-psycopg2

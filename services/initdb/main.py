@@ -6,11 +6,13 @@ from psycopg2 import sql
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 import logging
 
+
 def log(msg, error=None, actions=[]):
 
     logging.info(msg)
     if error != None: logging.error(error)
     for action in actions: action()
+
 
 def main():
 
@@ -111,6 +113,7 @@ def main():
         f"Done.",
         actions=[conn.close]
     )
+
 
 if __name__ == "__main__":
     main()

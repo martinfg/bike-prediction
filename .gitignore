@@ -6,12 +6,12 @@ __pycache__/
 venv/
 .idea/
 
-
 # local files
 .fuse*
 *.code-workspace
 scripts/
 data/*
+config.json
 
 # helm packaged dependencies 
 *.tgz
