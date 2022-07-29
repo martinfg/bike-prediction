@@ -38,9 +38,9 @@ spec:
       restartPolicy: {{ .Values.job.restartPolicy }}
       imagePullSecrets:
         - name: {{ .Values.global.containerRegistry.credentials.name }}
-      # {{- with .Values.nodeSelector }}
-      # nodeSelector:
-      # {{ toYaml . | indent 2 }}
-      # {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+      {{ toYaml . | indent 2 }}
+      {{- end }}
 
   backoffLimit: 4

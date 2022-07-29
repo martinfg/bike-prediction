@@ -18,7 +18,7 @@ In `./services` sind die einzelnen Komponenten gespeichert, meist Python Skripte
 
 ```
 helm install \
---set minio.password=$MINIO_PASSWORD \
+--set minio.password=$MINIO_KEY \
 --set containerRegistry.dockerconfig=$DOCKER_CONFIG \
 --set initdb.credentials.password=$DB_PASSWORD \
 bike-prediction ./bike-prediction 
