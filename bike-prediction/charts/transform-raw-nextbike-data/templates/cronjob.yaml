@@ -45,6 +45,7 @@ spec:
                   name: {{ .Values.global.timescaledb.credentials.name }}
                   key: {{ .Values.global.timescaledb.credentials.passwordKey | quote }} 
           restartPolicy: {{ .Values.cronJob.restartPolicy }}
+          concurrencyPolicy: {{ .Values.cronJob.concurrencyPolicy }}
           imagePullSecrets:
             - name: {{ .Values.global.containerRegistry.credentials.name }}
           {{- with .Values.nodeSelector }}

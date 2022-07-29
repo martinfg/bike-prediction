@@ -17,5 +17,8 @@ dependencies:
 - name: mockup
   repository: file://charts/mockup
   version: 0.1.0
-digest: sha256:52d9f1544954b005632ee0a401bfa67dc251ae24cd5db515f3bb614bb397aa59
-generated: "2022-07-27T14:20:03.866408181+02:00"
+- name: transform-raw-nextbike-data
+  repository: file://charts/transform-raw-nextbike-data
+  version: 0.1.0
+digest: sha256:245a98c4c0423f4fc777c91aa99142f6223e18f83801d5878f095182ee98a8b7
+generated: "2022-07-30T00:34:48.115347729+02:00"

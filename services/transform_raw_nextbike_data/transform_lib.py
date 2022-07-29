@@ -50,7 +50,6 @@ def list_data(directory, client, bucket_name):
 def load_raw_data(obj_name, client, bucket_name):
     try:
         data = client.get_object(bucket_name, obj_name)
-        print(data)
         return json.load(io.BytesIO(data.data))
 
     except InvalidResponseError as err:

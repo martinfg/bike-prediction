@@ -8,4 +8,5 @@ cronJob:
   schedule: "25,55 * * * *"
   image: nextbike-prediction:transform_raw_nextbike_data
   restartPolicy: Never
+  concurrencyPolicy: Forbid
   
