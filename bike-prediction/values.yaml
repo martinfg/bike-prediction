@@ -5,7 +5,7 @@ global:
   # for now some templates are assigned a nodeSelector to avoid being deployed
   # to a faulty node. A known working node is defined here.
   # (This first and foremost applies to pods with PVCs and the need for networking.)
-  saveNode: &saveNode conway018
+  # saveNode: &saveNode conway018
 
   timescaledb:
     host: &timescaleClusterName timescaledb
@@ -33,7 +33,7 @@ global:
       password: admin
 
 
-# === Dependecies ===
+# === Dependencies ===
 
 initdb:
   enabled: true
@@ -41,13 +41,18 @@ initdb:
     user: group8
     database: db
     password:
-  nodeSelector:   
-    kubernetes.io/hostname: *saveNode
+  # nodeSelector:   
+  #   kubernetes.io/hostname: *saveNode
 
 mockup:
+  enabled: false
+  # nodeSelector:   
+  #   kubernetes.io/hostname: *saveNode
+
+transform_raw_nextbike_data:
   enabled: true
-  nodeSelector:   
-    kubernetes.io/hostname: *saveNode
+  # nodeSelector:   
+  #   kubernetes.io/hostname: *saveNode
 
 minio:
   token: mzkZ98BKjvQo4F98
@@ -63,8 +68,8 @@ datacollector:
 
 fastapi:
   enabled: true
-  nodeSelector:   
-    kubernetes.io/hostname: *saveNode
+  # nodeSelector:   
+  #   kubernetes.io/hostname: *saveNode
 
 timescaledb-single:
   # admin guide: https://github.com/timescale/timescaledb-kubernetes/blob/master/charts/timescaledb-single/admin-guide.md
@@ -74,8 +79,8 @@ timescaledb-single:
   # by which the db is accessible from within the cluster
   clusterName: *timescaleClusterName
   # Node label to use for scheduling
-  nodeSelector:   
-    kubernetes.io/hostname: *saveNode
+  # nodeSelector:   
+  #   kubernetes.io/hostname: *saveNode
   # number of replicas
   replicaCount: 1
   # size of PVC
@@ -86,8 +91,8 @@ timescaledb-single:
 grafana:
   enabled: true
   # Node label to use for scheduling
-  nodeSelector:   
-    kubernetes.io/hostname: *saveNode
+  # nodeSelector:   
+  #   kubernetes.io/hostname: *saveNode
   # disable role-based-access-control
   rbac:
     create: false

@@ -1,0 +1,11 @@
+job:
+  name: transform-raw-nextbike-data-init
+  image: nextbike-prediction:transform_raw_nextbike_data
+  restartPolicy: Never
+  
+cronJob:
+  name: transform-raw-nextbike-data-cron
+  schedule: "25,55 * * * *"
+  image: nextbike-prediction:transform_raw_nextbike_data
+  restartPolicy: Never
+  

@@ -12,10 +12,20 @@ spec:
           'until pg_isready -h {{ .Values.global.timescaledb.host }} -p {{ .Values.global.timescaledb.port }}; 
           do echo waiting for database; sleep 2; done;']
       containers:
-      - name: initdb
+      - name: transform-raw-nextbike-data
         image: {{ .Values.global.containerRegistry.name }}{{ .Values.job.image }}
         imagePullPolicy: Always
         env:
+        - name: MINIO_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.global.minio.credentials.name }}
+              key: {{ .Values.global.minio.credentials.tokenKey | quote }}
+        - name: MINIO_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.global.minio.credentials.name }}
+              key: {{ .Values.global.minio.credentials.passwordKey | quote }}
         - name: DB_HOST
           value: {{ .Values.global.timescaledb.host | quote}}
         - name: DB_PORT
@@ -35,14 +45,6 @@ spec:
             secretKeyRef:
               name: {{ .Values.global.timescaledb.credentials.name }}
               key: {{ .Values.global.timescaledb.credentials.passwordKey | quote }} 
-        - name: DB_SUPERUSER
-          value: postgres
-        - name: DB_SUPERUSER_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.global.timescaledb.host}}-credentials
-              key: PATRONI_SUPERUSER_PASSWORD 
-
       restartPolicy: {{ .Values.job.restartPolicy }}
       imagePullSecrets:
         - name: {{ .Values.global.containerRegistry.credentials.name }}
@@ -50,6 +52,5 @@ spec:
       # nodeSelector:
       # {{ toYaml . | indent 2 }}
       # {{- end }}
-
 
   backoffLimit: 4

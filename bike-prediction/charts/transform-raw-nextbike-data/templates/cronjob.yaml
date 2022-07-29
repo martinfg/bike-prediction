@@ -15,6 +15,16 @@ spec:
             image: {{ .Values.global.containerRegistry.name }}{{ .Values.cronJob.image }}
             imagePullPolicy: Always
             env:
+            - name: MINIO_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.minio.credentials.name }}
+                  key: {{ .Values.global.minio.credentials.tokenKey | quote }}
+            - name: MINIO_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.minio.credentials.name }}
+                  key: {{ .Values.global.minio.credentials.passwordKey | quote }}
             - name: DB_HOST
               value: {{ .Values.global.timescaledb.host | quote}}
             - name: DB_PORT

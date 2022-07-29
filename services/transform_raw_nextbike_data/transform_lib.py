@@ -77,16 +77,17 @@ def connect_to_db():
     conn = None
     try:
         conn = psycopg2.connect(
-            # dbname=os.environ["DB_NAME"],
-            # user=os.environ["DB_USER"],
-            # password=os.environ["DB_PASSWORD"],
-            # host=os.environ["DB_HOST"],
-            # port=os.environ["DB_PORT"]
             dbname=os.environ["DB_NAME"],
-            user="group8",
+            user=os.environ["DB_USER"],
             password=os.environ["DB_PASSWORD"],
-            host='192.168.49.2',
-            port='32259'
+            host=os.environ["DB_HOST"],
+            port=os.environ["DB_PORT"]
+            # the following variables can be set for local development in minikube
+            # dbname=os.environ["DB_NAME"],
+            # user="group8",
+            # password=os.environ["DB_PASSWORD"],
+            # host='192.168.49.2',
+            # port='32259'
         )
         logging.info("Connection to db successful.")
     except Exception as e:
