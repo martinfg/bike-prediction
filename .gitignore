@@ -15,5 +15,8 @@ config.json
 .credentials.yaml
 .env
 
-# helm packaged dependencies 
+# helm packaged dependencies
 *.tgz
+
+# frontend dependendies
+node_modules
