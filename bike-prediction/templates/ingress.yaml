@@ -18,8 +18,15 @@ spec:
                   number: 80
           - path: /grafana/?(.*)
             pathType: Prefix
-            backend: 
-              service: 
+            backend:
+              service:
                 name: bike-prediction-grafana
-                port: 
+                port:
+                  number: 80
+          - path: /frontend
+            pathType: Prefix
+            backend:
+              service:
+                name: bike-prediction-frontend-deployment
+                port:
                   number: 80
