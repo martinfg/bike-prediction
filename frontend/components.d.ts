@@ -14,6 +14,7 @@ declare module '@vue/runtime-core' {
     Classfier: typeof import('./src/views/Classfier.vue')['default']
     Feedback: typeof import('./src/views/Feedback.vue')['default']
     Home: typeof import('./src/views/Home.vue')['default']
+    IconMdiBicycle: typeof import('~icons/mdi/bicycle')['default']
     IconMdiHome: typeof import('~icons/mdi/home')['default']
     IconMdiTrafficLight: typeof import('~icons/mdi/traffic-light')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
