@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: bike-prediction-frontend
-          image: group8se4ai/bike-prediction-frontend:latest
+          image: nextbike-prediction:frontend
           imagePullPolicy: Always
           ports:
             - containerPort: 80

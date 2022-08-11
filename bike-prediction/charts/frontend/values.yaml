@@ -1,0 +1,13 @@
+app: frontend
+
+deployment:
+  name: bike-prediction-frontend-deployment
+  image: nextbike-prediction:frontend
+  imagePullPolicy: Always
+  replicas: 1
+  port: 80
+
+service:
+  name: bike-prediction-frontend-service
+  type: ClusterIP
+  port: 80
