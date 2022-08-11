@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS predictions (
+CREATE TABLE IF NOT EXISTS predictions_pv (
   predicting_from      	TIMESTAMPTZ,
   predicting_for      	TIMESTAMPTZ,
   hours_ahead           INTEGER,
@@ -7,4 +7,4 @@ CREATE TABLE IF NOT EXISTS predictions (
   PRIMARY KEY(predicting_from, hours_ahead, grid_id)
 );
 
-SELECT create_hypertable('predictions', 'predicting_from', if_not_exists => TRUE);
+SELECT create_hypertable('predictions_pv', 'predicting_from', if_not_exists => TRUE);
