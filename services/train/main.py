@@ -40,10 +40,10 @@ def get_database_connection():
 def main():
 
     # FEATURE INFOS
-    precision = 7 # precision (which hexagon grid size to use)
+    precision = 8 # precision (which hexagon grid size to use)
     history = 3 # history range (how many hours in the past are used as features)
     prediction_horizon = 3 # how many timesteps (hours) are predicted into the future
-    locations = ["8763b1076ffffff", "8763b1054ffffff", "8763b102bffffff"] # list of locations that are covered by models
+    locations = ["881f1a8cb7fffff", "881f1a8ca7fffff", "881f1a1659fffff"] # list of locations that are covered by models
     # NOTE: We'll have to define those locations a priori and by doing so define a area we cover with predictions
     # because inferring locations from available data when training models is unstable since in dataset in can occur
     # that a certain location has no free bikes ergo will not have a model assigned
@@ -64,8 +64,11 @@ def main():
     # get data (bike count aggregated over 1h and hexagon with given precision)
     with conn.cursor() as cur:
         query = (f"""
-            SELECT date_trunc('hour', time) AS time, h3_grid{precision} as location, COUNT(*) as free_bikes
+            SELECT date_trunc('hour', time) AS time, h3_grid{precision} as location, COUNT(*) / 12 as free_bikes
             FROM bikes 
+            WHERE h3_grid8 = '881f1a8cb7fffff'
+            OR h3_grid8 = '881f1a8ca7fffff'
+            OR h3_grid8 = '881f1a1659fffff'
             GROUP BY date_trunc('hour', time), location
             ORDER BY time DESC, location DESC
         """)
@@ -120,15 +123,31 @@ def main():
         )
 
         # make prediction with loaded model on test sample
-        test_sample = dataset["8763b1076ffffff"].dropna().iloc[:5]
+
+        test_sample = dataset["881f1a8ca7fffff"].dropna().iloc[:10]
+        # print("Test sample:")
+        # print(test_sample)
         predictions = model.predict(test_sample)
+        # print("Predictions:")
         print(predictions)
+        # predictions.to_csv("predictions.csv")
 
         # log scores
         log(scores)
         mae = scores['overall']['mae']
         for idx, _mae in enumerate(mae):            
             mlflow.log_metric(f"mae_t{idx+1}", _mae)
+
+        # make prediction with loaded model for the three locations for the next three hours and save it to the database
+        
+        # Use the second latest entry because the hour will be complete then
+        augustusplatz = dataset["881f1a8cb7fffff"].iloc[[1]]
+        clarapark = dataset["881f1a8ca7fffff"].iloc[[1]]
+        lenepark = dataset["881f1a1659fffff"].iloc[[1]]
+
+        # print(f"Prediction Augustusplatz: {model.predict(augustusplatz)}")
+        # print(f"Prediction Clarapark: {model.predict(clarapark)}")
+        # print(f"Prediction Lenepark: {model.predict(lenepark)}")
 
 if __name__ == "__main__":
     main()

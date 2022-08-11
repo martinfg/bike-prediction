@@ -17,7 +17,7 @@ class Dataset():
 
     def prepare_samples(self, num_history, num_predictions):
         """
-        Creates a feature vector by mapping historic and feature values for bree bikes to every row if available,
+        Creates a feature vector by mapping historic and feature values for free bikes to every row if available,
         otherwise inserts NaN.
 
         num_history = how many time steps (hours) in the past should be converted to a column
@@ -36,8 +36,12 @@ class Dataset():
             suffix = "feature" if t <= 0 else "target"
             self._data[f'bikes_t{t}_{suffix}'] = self._data.apply(lambda x: get_t_values(t, x['time'], x['location']), axis=1)
 
-        # add total amount of free bikes as feature
+        # add total amount of free bikes as feature, FEATURE SUFFIX
         # TODO
+
+        # add weekday, FEATURE SUFFIX
+
+        # add time (one hot encoding) optional
 
         # drop free_bike column
         self._data = self._data.drop(columns=["free_bikes"])
