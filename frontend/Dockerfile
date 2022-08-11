@@ -11,7 +11,7 @@ COPY --chown=node:node . .
 RUN npm install
 
 ENV NODE_ENV=production
-ENV VITE_BACKEND_URL="https://t8.se4ai.sws.informatik.uni-leipzig.de/api/"
+ENV VITE_BACKEND_URL="https://t8.se4ai.sws.informatik.uni-leipzig.de/fastapi"
 
 RUN npm run build
 

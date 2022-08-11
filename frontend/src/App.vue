@@ -1,91 +1,122 @@
 <script setup lang="ts">
-import ky, { HTTPError, Options, TimeoutError } from "ky";
+import ky from "ky";
 
-const predictions = [
+interface Prediction {
+  index: number;
+  predicting_from: number;
+  predicting_for: number;
+  hours_ahead: number;
+  grid_id: string;
+  free_bikes: number;
+}
+
+interface Region {
+  name: string;
+  id: string;
+}
+
+const predictions = ref<Prediction[]>([]);
+
+const availableRegions = [
   {
-    date: "morgen",
-    confidence: 80,
-    weather: {
-      degree: 24,
-      sky: "sonnig",
-    },
-    regions: [
-      {
-        name: "Leipzig Nord",
-        availableBikes: 5,
-      },
-      {
-        name: "Leipzig Mitte",
-        availableBikes: 10,
-      },
-      {
-        name: "Leipzig Süd",
-        availableBikes: 2,
-      },
-    ],
+    name: "Augustusplatz",
+    id: "881f1a8cb7fffff",
+  },
+  {
+    name: "Clara-Park",
+    id: "881f1a8ca7fffff",
+  },
+  {
+    name: "Lene-Voigt-Park",
+    id: "881f1a1659fffff",
   },
 ];
 
-const getColor = (confidence: number) => {
-  if (confidence <= 30) {
-    return "red";
-  } else if (confidence <= 70) {
-    return "orange";
-  } else {
-    return "green";
+const selectedRegionId = ref<Region>();
+
+const getRegionName = (prediction: Prediction) => {
+  return availableRegions.find((region) => region.id === prediction.grid_id)
+    ?.name;
+};
+
+const getDate = () => {
+  const date = new Date(Date.now());
+  return date.toLocaleDateString();
+};
+const getPredictions = async () => {
+  if (selectedRegionId.value) {
+    const url = `${import.meta.env.VITE_BACKEND_URL}/pvprediction/${
+      selectedRegionId.value
+    }/`;
+    // const url = `https://t8.se4ai.sws.informatik.uni-leipzig.de/fastapi/pvprediction/${selectedRegionId.value}/`;
+
+    console.log(url);
+    try {
+      predictions.value = await ky.get(url).json();
+
+      console.log(predictions.value);
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 
-const getPredictions = () => {
-  // const url = `${import.frontend.env.FAST_API_URL}`;
-  // try {
-  //   const response = ky.get(url);
-  // } catch (error) {
-  //   console.log(error);
-  // }
-};
+watch(() => selectedRegionId.value, getPredictions);
+
+onMounted(() => {
+  getPredictions();
+});
 </script>
 
 <template>
   <div
     class="bg-emerald-500 w-screen h-screen flex items-center justify-center"
   >
-    <div
-      v-for="(prediction, index) in predictions"
-      :key="index"
-      class="border-3 rounded-3xl p-6 bg-gray-800"
-    >
-      <div class="inline-flex justify-between w-100">
-        <h1 class="font-semibold text-2xl">
-          Vorhersage für {{ prediction.date }}
-        </h1>
+    <div class="border-3 rounded-3xl py-6 px-8 bg-gray-800 text-white">
+      <h1 class="font-semibold text-2xl mb-4">
+        Fahrad-Verfügbarkeit Vorhersage für den
+        {{ getDate() }}
+      </h1>
+
+      <div class="flex justify-center">
+        <div class="mr-2">Wähle einen Ort aus:</div>
+        <select v-model="selectedRegionId" class="text-black">
+          <option
+            v-for="(region, index) in availableRegions"
+            :key="index"
+            :value="region.id"
+          >
+            {{ region.name }}
+          </option>
+        </select>
       </div>
 
-      <div class="text-sm font-semibold flex justify-between mt-2">
-        <div
-          :style="{
-            color: getColor(prediction.confidence),
-          }"
-        >
-          {{ prediction.confidence }}% Wahrscheinlichkeit
+      <div v-if="predictions.length > 0">
+        <div class="mt-6">
+          <h2 class="font-semibold text-xl mb-2">
+            {{ getRegionName(predictions[0]) }}
+          </h2>
+
+          <div
+            class="flex text-xl mb-6"
+            v-for="(prediction, index) in predictions"
+            :key="index"
+          >
+            <div class="mr-4">
+              <div v-if="prediction.hours_ahead === 1">
+                In {{ prediction.hours_ahead }} Stunde:
+              </div>
+              <div v-else>In {{ prediction.hours_ahead }} Stunden:</div>
+            </div>
+
+            <div class="flex">
+              {{ prediction.free_bikes }}
+              <icon-mdi-bicycle class="ml-2" />
+            </div>
+          </div>
+
+          <div class="border-1 my-8"></div>
         </div>
-      </div>
-
-      <div
-        v-for="(region, index) in prediction.regions"
-        :key="index"
-        class="mt-6"
-      >
-        <h2 class="font-semibold text-xl mb-2">
-          {{ region.name }}
-        </h2>
-
-        <div class="flex text-xl">
-          {{ region.availableBikes }}
-          <icon-mdi-bicycle class="ml-2" />
-        </div>
-
-        <div class="border-1 my-8"></div>
       </div>
     </div>
   </div>
