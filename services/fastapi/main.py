@@ -15,8 +15,11 @@ try:
 except:
     use_env_file = False
 
-# app = FastAPI(root_path="/fastapi", docs_url='/docs', openapi_url='/openapi.json')
-app = FastAPI()
+subpath = '/fastapi'
+
+app = FastAPI(root_path="/fastapi", docs_url='/docs', openapi_url='/openapi.json')
+# app = FastAPI()
+# app = FastAPI(docs_url=f'{subpath}/docs', openapi_url=f'{subpath}/openapi.json')
 
 origins = ['*']
 
@@ -65,25 +68,10 @@ def connect_to_db():
 
 @app.get('/')
 def get_root():
-  return {'message': 'Bike Prediction API v4'}
+  return {'message': 'Welcome to the Bike Prediction API.'}
 
 
-@app.get('/fastapi')
-def get_root():
-  return {'Hallo'}
-
-
-@app.get('/fastapi/test')
-def get_root():
-  return {'test'}
-
-
-@app.get('/items/{item_id}')
-def read_item(item_id: int):
-    return {'item_id': item_id}
-
-
-@app.get("/pvprediction/{grid_id}")
+@app.get("/pvprediction/{grid_id}/")
 def get_prior_value_prediction(grid_id: str):
 
   if use_env_file:
@@ -110,7 +98,6 @@ def get_prior_value_prediction(grid_id: str):
   result = df.reset_index().to_json(orient='records')
 
   json_response = json.loads(result)
-  print(json_response)
 
   return json_response
 

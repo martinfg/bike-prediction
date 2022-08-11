@@ -3,14 +3,16 @@ kind: Ingress
 metadata:
   name: bike-prediction-ingress
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+
 
 spec:
+  ingressClassName: nginx
   rules:
     - host: t8.se4ai.sws.informatik.uni-leipzig.de
       http:
         paths:
-          - path: /
+          - path: /home
             pathType: Prefix
             backend:
               service:
@@ -31,7 +33,6 @@ spec:
                 name: bike-prediction-grafana
                 port:
                   number: 80
-
   tls:
     - hosts:
       - t8.se4ai.sws.informatik.uni-leipzig.de
