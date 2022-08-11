@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bike-prediction-frontend-deployment
+  labels:
+    app: bike-prediction-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bike-prediction-frontend
+  template:
+    metadata:
+      labels:
+        app: bike-prediction-frontend
+    spec:
+      containers:
+        - name: bike-prediction-frontend
+          image: group8se4ai/bike-prediction-frontend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bike-prediction-frontend-service
+spec:
+  selector:
+    app: bike-prediction-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
