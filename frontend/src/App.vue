@@ -37,13 +37,12 @@ const getColor = (confidence: number) => {
 };
 
 const getPredictions = () => {
-  const url = `${import.frontend.env.FAST_API_URL}`;
-
-  try {
-    const response = ky.get(url);
-  } catch (error) {
-    console.log(error);
-  }
+  // const url = `${import.frontend.env.FAST_API_URL}`;
+  // try {
+  //   const response = ky.get(url);
+  // } catch (error) {
+  //   console.log(error);
+  // }
 };
 </script>
 
