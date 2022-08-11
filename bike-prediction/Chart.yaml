@@ -20,7 +20,7 @@ dependencies:
     repository: "file://charts/datacollector"
     condition: datacollector.enabled
   - name: fastapi
-    version: "0.1.0"
+    version: "0.5.0"
     repository: "file://charts/fastapi"
     condition: fastapi.enabled
   - name: frontend

@@ -61,27 +61,39 @@ helm upgrade bike-prediction .
 
 - `initdb`
 
-    Erstellt neue Datenbank und Nutzer und legt Tables an.
+    Erstellt neue Datenbank und Nutzer und legt Tabellen an.
 
 - `datacollector`
 
-    Fragt die nextbike Api alle 5 Minuten für Leipzig ab und dumped die Antwort als json in den Bucket Store (Minio).
+    Fragt die nextbike API alle 5 Minuten für Leipzig ab und dumped die Antwort als JSON in den Bucket Store (Minio).
 
 - `preprocessing`
 
-    *Todo*
+    Holt die neuen Daten aus dem Bucket Store (MinIO) alle halbe Stunde, bereitet sie auf, indem der Service ein JQ Script über die JSON-Dateien laufen lässt, der die relevanten Daten extrahiert. Ermittelt mittels Geocoding [H3-Werte](https://h3geo.org/) für die jeweiligen Positionen, über die sich später aggregieren lässt und füllt einmalig eine Tabelle mit Informationen über die Nextbike-Stationen.
 
 - `train`
-
-    *Todo*
-
-- `predict`
-
-    *Todo*
+    
+    Führt jede Stunde das Training aus und speichert die Predictions für die kommenden 3 Stunden in einer Tabelle.
+    Die Ergebnisse eines bestimmten Zeitpunkts können repliziert werden, indem man die historischen Daten bis zu diesem Zeitpunkt in das Training einbezieht und den Randomseed 42 verwendet.
+    
   
 - `fastapi`
 
-    *Todo*
+    Stellt eine API bereit, über die die aktuellsten Predictions aus der Tabelle gelesen werden können.
+
+    ```https://t8.se4ai.sws.informatik.uni-leipzig.de/pvprediction/{grid_id}/```
+
+    Für die Grid-ID können drei verschiedene Werte eingesetzt werden:
+
+    - Augustusplatz: 881f1a8cb7fffff
+    - Lene-Voigt-Park: 881f1a8ca7fffff
+    - Clara-Zetkin-Park: 881f1a1659fffff
+
+    Bei den Werten handelt es sich um H3-Hexagons, die eine [Fläche von etwa 0,73 km²](https://h3geo.org/docs/core-library/restable/) umfassen.
+
+    Die Grenzen der Flächen können z.B. auf [dieser Seite](https://wolf-h3-viewer.glitch.me/) eingesehen werden.
+
+    .
 
 - `webapp`
   
