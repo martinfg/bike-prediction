@@ -32,7 +32,11 @@ global:
       user: admin
       password: admin
 
-
+  mlflow:
+    username: group8
+    password: uK6CWCiy8
+    tracking_uri: https://mlflow.sws.informatik.uni-leipzig.de
+    
 # === Dependencies ===
 
 initdb:
@@ -50,6 +54,11 @@ mockup:
     kubernetes.io/hostname: *saveNode
 
 transform_raw_nextbike_data:
+  enabled: true
+  nodeSelector:   
+    kubernetes.io/hostname: *saveNode
+
+training:
   enabled: true
   nodeSelector:   
     kubernetes.io/hostname: *saveNode

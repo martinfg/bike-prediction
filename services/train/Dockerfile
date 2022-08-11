@@ -10,6 +10,6 @@ RUN pip3 install -r requirements.txt
 
 # copy app and libs
 COPY ./main.py ./main.py
-COPY ./libs/* ./libs/*
+COPY ./lib/* ./lib/
 
 CMD ["python", "main.py"]

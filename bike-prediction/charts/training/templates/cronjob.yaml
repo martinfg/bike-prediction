@@ -1,0 +1,51 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Values.cronJob.name }}
+spec:
+  schedule: {{ .Values.cronJob.schedule | quote }}
+  concurrencyPolicy: {{ .Values.cronJob.concurrencyPolicy }}
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: {{ .Values.global.defaultContainerName }}
+            image: {{ .Values.global.containerRegistry.name }}{{ .Values.cronJob.image }}
+            imagePullPolicy: Always
+            env:
+            - name: MLFLOW_TRACKING_USERNAME
+              value: {{ .Values.global.mlflow.username | quote}}
+            - name: MLFLOW_TRACKING_PASSWORD
+              value: {{ .Values.global.mlflow.password | quote}}
+            - name: MLFLOW_TRACKING_URI
+              value: {{ .Values.global.mlflow.tracking_uri | quote}}
+            - name: DB_HOST
+              value: {{ .Values.global.timescaledb.host | quote}}
+            - name: DB_PORT
+              value: {{ .Values.global.timescaledb.port | quote}}
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.timescaledb.credentials.name }}
+                  key: {{ .Values.global.timescaledb.credentials.databaseKey | quote }} 
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.timescaledb.credentials.name }}
+                  key: {{ .Values.global.timescaledb.credentials.userKey | quote }} 
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.timescaledb.credentials.name }}
+                  key: {{ .Values.global.timescaledb.credentials.passwordKey | quote }}
+
+          restartPolicy: {{ .Values.cronJob.restartPolicy }}
+          imagePullSecrets:
+            - name: {{ .Values.global.containerRegistry.credentials.name }}
+          {{- with .Values.nodeSelector }}
+          nodeSelector:
+          {{ toYaml . | indent 2 }}
+          {{- end }}
