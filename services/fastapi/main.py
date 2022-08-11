@@ -64,7 +64,7 @@ def connect_to_db():
 
 @app.get('/')
 def get_root():
-  return {'message': 'Bike Prediction API v3'}
+  return {'message': 'Bike Prediction API v4'}
 
 
 @app.get('/fastapi')
