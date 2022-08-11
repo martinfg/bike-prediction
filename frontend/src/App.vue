@@ -26,15 +26,6 @@ const predictions = [
   },
 ];
 
-const getWeatherData = async () => {
-  const apiKey = "4cbe3a88b8d9c0b2e2df389a51f37303";
-
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=Leipzig&appid=${apiKey}`;
-
-  const json = await ky.get(url).json();
-  console.log(json);
-};
-
 const getColor = (confidence: number) => {
   if (confidence <= 30) {
     return "red";
@@ -45,47 +36,47 @@ const getColor = (confidence: number) => {
   }
 };
 
-onMounted(async () => {
-  await getWeatherData();
-});
+const getPredictions = () => {
+  const url = `${import.frontend.env.FAST_API_URL}`;
+
+  try {
+    const response = ky.get(url);
+  } catch (error) {
+    console.log(error);
+  }
+};
 </script>
 
 <template>
-  <div class="bg-emerald-500 w-screen h-screen flex items-center justify-center">
-    <div v-for="(prediction, index) in predictions" :key="index" class="border-3 rounded-3xl p-6 bg-white">
+  <div
+    class="bg-emerald-500 w-screen h-screen flex items-center justify-center"
+  >
+    <div
+      v-for="(prediction, index) in predictions"
+      :key="index"
+      class="border-3 rounded-3xl p-6 bg-gray-800"
+    >
       <div class="inline-flex justify-between w-100">
         <h1 class="font-semibold text-2xl">
           Vorhersage für {{ prediction.date }}
         </h1>
-
-        <div class="flex text-2xl">
-          <div class="mr-2 font-semibold">{{ prediction.weather.degree }}°</div>
-
-          <div v-if="prediction.weather.sky === 'sonnig'">
-            <icon-mdi-weather-sunny class="text-2xl" />
-          </div>
-
-          <div v-else-if="prediction.weather.sky === 'bewölkt'">
-            <icon-mdi-cloud class="text-2xl" />
-          </div>
-
-          <div v-else-if="prediction.weather.sky === 'regnerisch'">
-            <icon-mdi-weather-pouring class="text-2xl" />
-          </div>
-        </div>
       </div>
 
       <div class="text-sm font-semibold flex justify-between mt-2">
-        <div :style="{
-          color: getColor(prediction.confidence),
-        }">
+        <div
+          :style="{
+            color: getColor(prediction.confidence),
+          }"
+        >
           {{ prediction.confidence }}% Wahrscheinlichkeit
         </div>
-
-        <div>Möchtest du ein Fahhrad buchen?</div>
       </div>
 
-      <div v-for="(region, index) in prediction.regions" :key="index" class="mt-6">
+      <div
+        v-for="(region, index) in prediction.regions"
+        :key="index"
+        class="mt-6"
+      >
         <h2 class="font-semibold text-xl mb-2">
           {{ region.name }}
         </h2>
@@ -101,5 +92,4 @@ onMounted(async () => {
   </div>
 </template>
 
-<style lang="postcss">
-</style>
+<style lang="postcss"></style>
