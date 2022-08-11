@@ -15,7 +15,8 @@ try:
 except:
     use_env_file = False
 
-app = FastAPI(root_path="/fastapi", docs_url='/docs', openapi_url='/openapi.json')
+# app = FastAPI(root_path="/fastapi", docs_url='/docs', openapi_url='/openapi.json')
+app = FastAPI()
 
 origins = ['*']
 
