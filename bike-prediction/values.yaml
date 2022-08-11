@@ -41,17 +41,17 @@ initdb:
     user: group8
     database: db
     password:
-  nodeSelector:   
+  nodeSelector:
     kubernetes.io/hostname: *saveNode
 
 mockup:
   enabled: false
-  nodeSelector:   
+  nodeSelector:
     kubernetes.io/hostname: *saveNode
 
 transform_raw_nextbike_data:
   enabled: true
-  nodeSelector:   
+  nodeSelector:
     kubernetes.io/hostname: *saveNode
 
 minio:
@@ -61,14 +61,19 @@ minio:
 containerRegistry:
   dockerconfig: # base64 encoded output of ~/.docker/config.json
 
-datacollector: 
+datacollector:
   enabled: true
   # when in debug mode, connection to bucket store is established but data not actually written
   debug: false
 
 fastapi:
   enabled: true
-  nodeSelector:   
+  nodeSelector:
+    kubernetes.io/hostname: *saveNode
+
+frontend:
+  enabled: true
+  nodeSelector:
     kubernetes.io/hostname: *saveNode
 
 timescaledb-single:
@@ -79,7 +84,7 @@ timescaledb-single:
   # by which the db is accessible from within the cluster
   clusterName: *timescaleClusterName
   # Node label to use for scheduling
-  nodeSelector:   
+  nodeSelector:
     kubernetes.io/hostname: *saveNode
   # number of replicas
   replicaCount: 1
@@ -91,7 +96,7 @@ timescaledb-single:
 grafana:
   enabled: true
   # Node label to use for scheduling
-  nodeSelector:   
+  nodeSelector:
     kubernetes.io/hostname: *saveNode
   # disable role-based-access-control
   rbac:

@@ -23,6 +23,10 @@ dependencies:
     version: "0.1.0"
     repository: "file://charts/fastapi"
     condition: fastapi.enabled
+  - name: frontend
+    version: "0.1.0"
+    repository: "file://charts/frontend"
+    condition: frontend.enabled
   - name: mockup
     version: "0.1.0"
     repository: "file://charts/mockup"
