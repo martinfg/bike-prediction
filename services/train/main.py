@@ -1,12 +1,15 @@
-import os
-import sys
-import psycopg2
 import logging
 import mlflow
+import os
+import pandas as pd
+import psycopg2
+import sys
 
-from mlflow.tracking import MlflowClient
+from datetime import timedelta
 from lib.model import BaselineModel
 from lib.data import Dataset
+from mlflow.tracking import MlflowClient
+from pathlib import Path
 
 try:
     from dotenv import load_dotenv
@@ -19,6 +22,7 @@ def log(msg, error=None, actions=[]):
     logging.info(msg)
     if error != None: logging.error(error)
     for action in actions: action()
+
 
 def get_database_connection():
     try:
@@ -37,7 +41,55 @@ def get_database_connection():
             [lambda: sys.exit(0)]
         )
 
-def main():
+
+def parse_prediction(df, prediction_horizon):
+
+    table_df = pd.DataFrame(columns=['predicting_from', 'predicting_for', 'hours_ahead', 'grid_id', 'free_bikes'])
+    
+    for i in range(prediction_horizon):
+
+        hours = i + 1
+
+        table_df = table_df.append(
+            {
+                'predicting_from': df.iloc[0,0],
+                'predicting_for': df.iloc[0,0] + timedelta(hours=hours),
+                'hours_ahead': hours,
+                'grid_id': df.iloc[0,1],
+                'free_bikes': int(df.iloc[0,2+i])
+            },
+            ignore_index=True)
+
+    return table_df
+
+
+def write_to_table(conn, df, table):
+    """
+    Here we are going save the dataframe on disk as 
+    a csv file, load the csv file  
+    and use copy_from() to copy it to the table
+    """
+    # Save the dataframe to disk
+    tmp_df = "./tmp_dataframe.csv"
+    df.to_csv(tmp_df, header=False, index=False)
+    f = open(tmp_df, 'r')
+    cursor = conn.cursor()
+    try:
+        cursor.copy_from(f, table, sep=",")
+        conn.commit()
+    except (Exception, psycopg2.DatabaseError) as error:
+        os.remove(tmp_df)
+        print("Error: %s" % error)
+        conn.rollback()
+        cursor.close()
+        return 1
+    logging.info(f"Writing prediction to {table} was successful.")
+    cursor.close()
+    os.remove(tmp_df)
+    return f
+
+
+def training_prior_value():
 
     # FEATURE INFOS
     precision = 8 # precision (which hexagon grid size to use)
@@ -75,7 +127,6 @@ def main():
         cur.execute(query)
         data = cur.fetchall()
         column_names = [desc[0] for desc in cur.description]
-    log("Database connection closed.", actions=[conn.close])
     
     # init mlflow
     log(f"Experiments will be tracked with mlflow to URI: {mlflow.get_tracking_uri()}")
@@ -129,7 +180,7 @@ def main():
         # print(test_sample)
         predictions = model.predict(test_sample)
         # print("Predictions:")
-        print(predictions)
+        # print(predictions)
         # predictions.to_csv("predictions.csv")
 
         # log scores
@@ -145,9 +196,19 @@ def main():
         clarapark = dataset["881f1a8ca7fffff"].iloc[[1]]
         lenepark = dataset["881f1a1659fffff"].iloc[[1]]
 
-        # print(f"Prediction Augustusplatz: {model.predict(augustusplatz)}")
-        # print(f"Prediction Clarapark: {model.predict(clarapark)}")
-        # print(f"Prediction Lenepark: {model.predict(lenepark)}")
+        places = [augustusplatz, clarapark, lenepark]
+
+        for p in places:
+            prediction_df = model.predict(p)
+            prediction_parsed = parse_prediction(prediction_df, prediction_horizon)
+            write_to_table(conn, prediction_parsed, 'predictions_pv')
+
+        log("Database connection closed.", actions=[conn.close])
+
+
+def main():
+    training_prior_value()
+
 
 if __name__ == "__main__":
     main()

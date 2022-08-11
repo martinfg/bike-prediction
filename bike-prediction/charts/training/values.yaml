@@ -1,0 +1,7 @@
+cronJob:
+  name: training
+  schedule: "40 * * * *"
+  image: nextbike-prediction:train
+  restartPolicy: Never
+  concurrencyPolicy: Forbid
+  
