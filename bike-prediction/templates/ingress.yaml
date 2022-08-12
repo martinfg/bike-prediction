@@ -12,7 +12,7 @@ spec:
     - host: t8.se4ai.sws.informatik.uni-leipzig.de
       http:
         paths:
-          - path: /fastapi(/|$)(.*)
+          - path: /fastapi/?(.*)
             pathType: Prefix
             backend:
               service:
