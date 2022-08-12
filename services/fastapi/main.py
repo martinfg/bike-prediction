@@ -7,7 +7,6 @@ import pandas as pd
 import psycopg2
 import sys
 
-import asyncio
 
 try:
     from dotenv import load_dotenv
@@ -15,11 +14,7 @@ try:
 except:
     use_env_file = False
 
-subpath = '/fastapi'
-
 app = FastAPI(root_path="/fastapi", docs_url='/docs', openapi_url='/openapi.json')
-# app = FastAPI()
-# app = FastAPI(docs_url=f'{subpath}/docs', openapi_url=f'{subpath}/openapi.json')
 
 origins = ['*']
 
@@ -49,12 +44,6 @@ def connect_to_db():
             password=os.environ["DB_PASSWORD"],
             host=os.environ["DB_HOST"],
             port=os.environ["DB_PORT"]
-            # the following variables can be set for local development in minikube
-            # dbname=os.environ["DB_NAME"],
-            # user="group8",
-            # password=os.environ["DB_PASSWORD"],
-            # host='192.168.49.2',
-            # port='32259'
         )
         logging.info("Connection to db successful.")
     except Exception as e:
@@ -62,7 +51,6 @@ def connect_to_db():
             "Connection to DB could not be established. Exiting.", e,
             [lambda: sys.exit(0)]
         )
-        print(e)
     return conn
 
 
@@ -102,5 +90,36 @@ def get_prior_value_prediction(grid_id: str):
   return json_response
 
 
+@app.get("/lrprediction/{grid_id}/")
+def get_linear_regression_prediction(grid_id: str):
+
+  if use_env_file:
+        load_dotenv()
+
+  # connect to database
+  conn = connect_to_db()
+
+  # get latest entry from prior value predictions table for corresponding grid id
+  with conn.cursor() as cur:
+        query = ("""
+            SELECT *
+            FROM predictions_lr
+            WHERE predicting_from = (SELECT MAX(predicting_from) FROM predictions_lr WHERE grid_id=%(gid)s) AND grid_id=%(gid)s
+        """)
+        cur.execute(query, {'gid': grid_id})
+        data = cur.fetchall()
+        column_names = [desc[0] for desc in cur.description]
+        log("Database connection closed.", actions=[conn.close])
+
+  df = pd.DataFrame(data=data, columns=column_names)
+
+  # transform the row to json
+  result = df.reset_index().to_json(orient='records')
+
+  json_response = json.loads(result)
+
+  return json_response
+
+
 # if __name__ == "__main__":
-#   get_prior_value_prediction('881f1a8ca7fffff')
+#   print(get_linear_regression_prediction('881f1a8ca7fffff'))

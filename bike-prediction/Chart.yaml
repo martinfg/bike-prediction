@@ -36,7 +36,7 @@ dependencies:
     repository: "file://charts/transform-raw-nextbike-data"
     condition: transform-raw-nextbike-data.enabled
   - name: training
-    version: "0.1.0"
+    version: "0.2.0"
     repository: "file://charts/training"
     condition: training.enabled
 

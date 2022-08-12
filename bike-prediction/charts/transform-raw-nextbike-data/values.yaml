@@ -5,7 +5,7 @@ job:
   
 cronJob:
   name: transform-raw-nextbike-data-cron
-  schedule: "25,55 * * * *"
+  schedule: "3,33 * * * *"
   image: nextbike-prediction:transform_raw_nextbike_data
   restartPolicy: Never
   concurrencyPolicy: Forbid

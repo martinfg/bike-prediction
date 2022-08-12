@@ -1,6 +1,6 @@
 cronJob:
   name: training
-  schedule: "40 * * * *"
+  schedule: "5 * * * *"
   image: nextbike-prediction:train
   restartPolicy: Never
   concurrencyPolicy: Forbid
