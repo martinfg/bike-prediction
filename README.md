@@ -121,6 +121,10 @@ helm upgrade bike-prediction .
 
 - `webapp`
 
-    Um das Frontend lokal auszuführen wird muss `node.js` installiert sein. Per `npm install` können im Frontend-Ordner alle benötigten Dependencies installiert werden.
+    Um das Frontend lokal auszuführen wird muss `node.js` installiert sein. Per `npm install` können im Frontend-Ordner alle benötigten Dependencies installiert werden. (über `cd frontend` in den Ordner navigieren)
     - Über `npm run dev` wird die App lokal gestartet
     - wenn noch keine `.env` Datei vorhanden ist, kann die `.env.example` Datei zu einer `.env`-Datei umgewandelt werden, um die URL für Anfragen an Fastapi zu setzen (alternativ kann die URL in der `getPredictions`-Methode in `App.vue` gesetzt werden)
+
+    Befehle für das Bauen und Pushen des Frontend-Docker-Containers (muss im Frontend Ordner erfolgen):
+    - `docker build -t group8se4ai/nextbike-prediction:frontend .`
+    - `docker push group8se4ai/nextbike-prediction:frontend`
