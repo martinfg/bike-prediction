@@ -25,13 +25,13 @@ helm install \
 --set minio.password=$MINIO_KEY \
 --set containerRegistry.dockerconfig=$DOCKER_CONFIG \
 --set initdb.credentials.password=$DB_PASSWORD \
-bike-prediction ./bike-prediction 
+bike-prediction ./bike-prediction
 ```
 Die ENV Variablen liegen alle in den CI/CD-Settings.
 
 **Um sie wieder zu deinstallieren muss folgender Befehl ausgeführt werden:**
 
-``` 
+```
 helm delete bike-prediction
 ```
 
@@ -48,7 +48,7 @@ kubectl delete $(kubectl get pvc,ep,service,secret -l release=bike-prediction -o
 ```
 
 **Updaten eines Releases:**
-``` 
+```
 helm upgrade bike-prediction .
 ```
 
@@ -57,7 +57,7 @@ helm upgrade bike-prediction .
 - `timescaledb`
 
     **Zeitreihen basierte Datenbank**
-    
+
     Für Zugriff auf DB innerhalb des Clusters:
     ```
     kubectl exec --stdin --tty bike-prediction-timescaledb-0 -- /bin/bash
@@ -80,21 +80,21 @@ helm upgrade bike-prediction .
     Kann unter [diesem Link](t8.se4ai.sws.informatik.uni-leipzig.de/grafana) aufgerufen werden für das Monitoring und Erstellen von Dashboards.
 
 - `train`
-    
+
     Führt jede Stunde das Training aus und speichert die Predictions für die kommenden 3 Stunden in einer Tabelle.
-    Die Ergebnisse eines bestimmten Zeitpunkts können repliziert werden, indem man die historischen Daten bis zu diesem Zeitpunkt in das Training einbezieht und den Randomseed 42 verwendet. 
+    Die Ergebnisse eines bestimmten Zeitpunkts können repliziert werden, indem man die historischen Daten bis zu diesem Zeitpunkt in das Training einbezieht und den Randomseed 42 verwendet.
 
     Wir haben zwei verschiedene Modelle erstellt:
 
-    1. Prior Value (Baseline-Modell):  
-    Diese Prediction dient als Baseline-Modell und wiederholt für die Vorhersage der nächsten 3 Stunden einfach den aktuellen Wert an freien Fahrrädern in dem jeweiligen Gebiet.  
+    1. Prior Value (Baseline-Modell):
+    Diese Prediction dient als Baseline-Modell und wiederholt für die Vorhersage der nächsten 3 Stunden einfach den aktuellen Wert an freien Fahrrädern in dem jeweiligen Gebiet.
     In MLFlow findet man die Runs unter dem Experimentnamen *group8-baseline* und das Modell unter dem Namen *group8-baselinemodel*.
 
-    2. Linear Regression (Machine Learning-Modell):  
-    Diese Prediction ist ein einfaches Machine Learning-Modell, das mit allen verfügbaren historischen Daten für die 3 Gebiete, die wir bisher unterstützen trainiert wurde. Wie das Prior Value Modell gibt es eine Vorhersage für die Anzahl der frei verfügbaren Fahrräder in den jeweiligen Gebieten in den nächsten 3 Stunden aus.  
+    2. Linear Regression (Machine Learning-Modell):
+    Diese Prediction ist ein einfaches Machine Learning-Modell, das mit allen verfügbaren historischen Daten für die 3 Gebiete, die wir bisher unterstützen trainiert wurde. Wie das Prior Value Modell gibt es eine Vorhersage für die Anzahl der frei verfügbaren Fahrräder in den jeweiligen Gebieten in den nächsten 3 Stunden aus.
     In MLFlow findet man die Runs unter dem Experimentnamen *group8-ml* und das Modell unter dem Namen *group8-mlmodel*.
-    
-  
+
+
 - `fastapi`
 
     Stellt eine API bereit, über die sowohl die Prior Value-, als auch die Linear Regression-Predictions aus der Tabelle gelesen werden können:
@@ -104,7 +104,7 @@ helm upgrade bike-prediction .
     Prior-Value-Prediction
     https://t8.se4ai.sws.informatik.uni-leipzig.de/pvprediction/{grid_id}/
 
-    
+
     Linear-Regression-Prediction
     https://t8.se4ai.sws.informatik.uni-leipzig.de/lrprediction/{grid_id}/
     ```
@@ -120,5 +120,7 @@ helm upgrade bike-prediction .
     Die Grenzen der Flächen können z.B. auf [dieser Seite](https://wolf-h3-viewer.glitch.me/) eingesehen werden.
 
 - `webapp`
-  
-    *Todo*
+
+    Um das Frontend lokal auszuführen wird muss `node.js` installiert sein. Per `npm install` können im Frontend-Ordner alle benötigten Dependencies installiert werden.
+    - Über `npm run dev` wird die App lokal gestartet
+    - wenn noch keine `.env` Datei vorhanden ist, kann die `.env.example` Datei zu einer `.env`-Datei umgewandelt werden, um die URL für Anfragen an Fastapi zu setzen (alternativ kann die URL in der `getPredictions`-Methode in `App.vue` gesetzt werden)

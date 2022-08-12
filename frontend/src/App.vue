@@ -48,13 +48,10 @@ const getPredictions = async () => {
     const url = `${import.meta.env.VITE_BACKEND_URL}/lrprediction/${
       selectedRegionId.value
     }/`;
-    // const url = `https://t8.se4ai.sws.informatik.uni-leipzig.de/fastapi/pvprediction/${selectedRegionId.value}/`;
 
     console.log(url);
     try {
       predictions.value = await ky.get(url).json();
-
-      console.log(predictions.value);
     } catch (error) {
       console.log(error);
     }
@@ -74,7 +71,7 @@ onMounted(() => {
   >
     <div class="border-3 rounded-3xl py-6 px-8 bg-gray-800 text-white">
       <h1 class="font-semibold text-2xl mb-4">
-        Fahrad-Verfügbarkeit Vorhersage für den
+        Fahrrad-Verfügbarkeit Vorhersage für den
         {{ getDate() }}
       </h1>
 
