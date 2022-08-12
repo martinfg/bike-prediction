@@ -1,6 +1,10 @@
 ## Voraussage von Verfügbarkeit von Leih-Fahrrädern
 
-...
+Das Ziel unseres Projekts war es, mithilfe eines ML-Modells die Anzahl der verfügbaren Nextbike-Fahrräder in den nächsten Stunden in verschiedenen Gebieten von Leipzig vorherzusagen.
+
+Unter [dieser Website](t8.se4ai.sws.informatik.uni-leipzig.de/) kann unser Frontend aufgerufen werden.
+
+Das Requirements Engineering-Artifakt unserer Gruppe liegt im [Wiki](https://git.informatik.uni-leipzig.de/se4ai/se4ai-2022/se4ai-2022-8/-/wikis/Requirements-Engineering) dieses Repos.
 
 ### Deployment
 
@@ -70,6 +74,10 @@ helm upgrade bike-prediction .
 - `preprocessing`
 
     Holt die neuen Daten aus dem Bucket Store (MinIO) alle halbe Stunde, bereitet sie auf, indem der Service ein JQ Script über die JSON-Dateien laufen lässt, der die relevanten Daten extrahiert. Ermittelt mittels Geocoding [H3-Werte](https://h3geo.org/) für die jeweiligen Positionen, über die sich später aggregieren lässt und füllt einmalig eine Tabelle mit Informationen über die Nextbike-Stationen.
+
+- `grafana`
+
+    Kann unter [diesem Link](t8.se4ai.sws.informatik.uni-leipzig.de/grafana) aufgerufen werden für das Monitoring und Erstellen von Dashboards.
 
 - `train`
     
