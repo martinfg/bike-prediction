@@ -23,7 +23,7 @@ helm install \
 --set initdb.credentials.password=$DB_PASSWORD \
 bike-prediction ./bike-prediction 
 ```
-Die env Variablen liegen alle in den CI/CD-Settings.
+Die ENV Variablen liegen alle in den CI/CD-Settings.
 
 **Um sie wieder zu deinstallieren muss folgender Befehl ausgeführt werden:**
 
@@ -56,7 +56,7 @@ helm upgrade bike-prediction .
     
     Für Zugriff auf DB innerhalb des Clusters:
     ```
-    kubectl exec --stdin --tty bike-prediction-timescaledb-0 -- /bin/bash                                                                            (s4ki_2) 
+    kubectl exec --stdin --tty bike-prediction-timescaledb-0 -- /bin/bash
     ```
 
 - `initdb`
@@ -74,14 +74,32 @@ helm upgrade bike-prediction .
 - `train`
     
     Führt jede Stunde das Training aus und speichert die Predictions für die kommenden 3 Stunden in einer Tabelle.
-    Die Ergebnisse eines bestimmten Zeitpunkts können repliziert werden, indem man die historischen Daten bis zu diesem Zeitpunkt in das Training einbezieht und den Randomseed 42 verwendet.
+    Die Ergebnisse eines bestimmten Zeitpunkts können repliziert werden, indem man die historischen Daten bis zu diesem Zeitpunkt in das Training einbezieht und den Randomseed 42 verwendet. 
+
+    Wir haben zwei verschiedene Modelle erstellt:
+
+    1. Prior Value (Baseline-Modell):  
+    Diese Prediction dient als Baseline-Modell und wiederholt für die Vorhersage der nächsten 3 Stunden einfach den aktuellen Wert an freien Fahrrädern in dem jeweiligen Gebiet.  
+    In MLFlow findet man die Runs unter dem Experimentnamen *group8-baseline* und das Modell unter dem Namen *group8-baselinemodel*.
+
+    2. Linear Regression (Machine Learning-Modell):  
+    Diese Prediction ist ein einfaches Machine Learning-Modell, das mit allen verfügbaren historischen Daten für die 3 Gebiete, die wir bisher unterstützen trainiert wurde. Wie das Prior Value Modell gibt es eine Vorhersage für die Anzahl der frei verfügbaren Fahrräder in den jeweiligen Gebieten in den nächsten 3 Stunden aus.  
+    In MLFlow findet man die Runs unter dem Experimentnamen *group8-ml* und das Modell unter dem Namen *group8-mlmodel*.
     
   
 - `fastapi`
 
-    Stellt eine API bereit, über die die aktuellsten Predictions aus der Tabelle gelesen werden können.
+    Stellt eine API bereit, über die sowohl die Prior Value-, als auch die Linear Regression-Predictions aus der Tabelle gelesen werden können:
 
-    ```https://t8.se4ai.sws.informatik.uni-leipzig.de/pvprediction/{grid_id}/```
+
+    ```
+    Prior-Value-Prediction
+    https://t8.se4ai.sws.informatik.uni-leipzig.de/pvprediction/{grid_id}/
+
+    
+    Linear-Regression-Prediction
+    https://t8.se4ai.sws.informatik.uni-leipzig.de/lrprediction/{grid_id}/
+    ```
 
     Für die Grid-ID können drei verschiedene Werte eingesetzt werden:
 
@@ -92,8 +110,6 @@ helm upgrade bike-prediction .
     Bei den Werten handelt es sich um H3-Hexagons, die eine [Fläche von etwa 0,73 km²](https://h3geo.org/docs/core-library/restable/) umfassen.
 
     Die Grenzen der Flächen können z.B. auf [dieser Seite](https://wolf-h3-viewer.glitch.me/) eingesehen werden.
-
-    .
 
 - `webapp`
   
