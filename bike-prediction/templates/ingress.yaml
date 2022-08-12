@@ -12,13 +12,6 @@ spec:
     - host: t8.se4ai.sws.informatik.uni-leipzig.de
       http:
         paths:
-          - path: /?(.*)
-            pathType: Prefix
-            backend:
-              service:
-                name: bike-prediction-frontend-service
-                port:
-                  number: 80
           - path: /fastapi(/|$)(.*)
             pathType: Prefix
             backend:
@@ -31,6 +24,13 @@ spec:
             backend:
               service:
                 name: bike-prediction-grafana
+                port:
+                  number: 80
+          - path: /?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: bike-prediction-frontend-service
                 port:
                   number: 80
   tls:
