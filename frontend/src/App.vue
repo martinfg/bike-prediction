@@ -45,7 +45,7 @@ const getDate = () => {
 };
 const getPredictions = async () => {
   if (selectedRegionId.value) {
-    const url = `${import.meta.env.VITE_BACKEND_URL}/pvprediction/${
+    const url = `${import.meta.env.VITE_BACKEND_URL}/lrprediction/${
       selectedRegionId.value
     }/`;
     // const url = `https://t8.se4ai.sws.informatik.uni-leipzig.de/fastapi/pvprediction/${selectedRegionId.value}/`;
